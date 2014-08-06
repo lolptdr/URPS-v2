@@ -15,14 +15,6 @@ get '/' do
   erb :index
 end
 
-get '/index' do
-  if session['sesh_example']
-    @user = Sesh.dbi.get_user_by_username(session['sesh_example'])
-  end
-  
-  erb :index
-end
-
 get '/signin' do
   erb :signin
 end
@@ -37,10 +29,10 @@ post '/signin' do
   user = Sesh.dbi.get_user_by_username(params['username'])
   if user && user.has_password?(params['password'])
     session['sesh_example'] = user.username
-    redirect to '/'
+    redirect to '/control_panel'
   else
     flash[:alert] = "THAT'S NOT THE RIGHT PASSWORD!!!!"
-    redirect to 'signup'
+    redirect to '/signin'
   end
 end
 
@@ -63,7 +55,7 @@ post '/signup' do
     user.update_password(params['password'])
     Sesh.dbi.persist_user(user)
     session['sesh_example'] = user.username
-    redirect to '/'
+    redirect to '/signin'
     # erb :signin ----> remove, not necessary
   else
     flash[:alert] = "Your passwords don't match. Please check your passwords."
@@ -74,4 +66,8 @@ end
 get '/signout' do
   session.clear
   redirect to '/'
+end
+
+get '/arena' do
+  erb :arena
 end
