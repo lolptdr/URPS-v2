@@ -1,13 +1,48 @@
-<div align="center">
-  <h2>JOIN URPS !!</h2>
-  <% if @user %>
-    You are signed in as <%= @user.username %><br /><br />
-    <a href='/signout'>Sign Out</a>
-  <% else %>
-    You are not signed in!<br /><br />
-    <a href='/signin'>Sign In</a><br />
-    <a href='/signup'>Sign Up</a>
-    </div>
+      <div class="large-3 columns right">
+          <a href="#" class="button [tiny small large] right">Logout</a> 
+          <a href="#" data-dropdown="drop" class="[tiny small medium large] [secondary alert success] [radius round] button dropdown">Login</a><br>
+          <ul id="drop" data-dropdown-content class="f-dropdown">
+            <li>
+              <div class="small-9 columns">
+                <input type="text" id="right-label" name="username" placeholder="Username">
+                <input type="password" id="right-label" name="password" placeholder="Password">
+                <input type="submit" id="right-label" name="submit" value="Login">
+              </div>
+            </li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+          </ul>
+        </div>
     
-  <% end %>
-</div>
+        <!-- <div class="button-bar">
+          
+          <ul class="button-group round even right">
+            <li><a href="#" class="[tiny small large] button [alert success secondary] [disabled]">Button 1</a></li>
+            <li><a href="#" class="[tiny small large] button [alert success secondary] [disabled]">Button 2</a></li>
+            <li><a href="#" class="[tiny small large] button [alert success secondary] [disabled]">Button 3</a></li>
+          </ul>
+        </div> -->
+      </div>
+
+      <div class="large-3 columns">
+        <div class="panel">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis culpa minima ex obcaecati iste nam atque, tenetur a unde quod dicta sed, iusto animi porro, voluptates aspernatur harum. Possimus, expedita, distinctio ab laboriosam nulla culpa veniam enim nam illo eos impedit natus odio quo fuga aperiam nesciunt consectetur! Ullam aperiam ducimus praesentium necessitatibus nostrum tenetur, deserunt, nihil eius doloribus laudantium?</p>
+        </div>
+      </div>
+      <div class="large-6 columns">
+        <div class="panel">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus debitis, laborum provident quod veritatis, eligendi recusandae voluptate autem totam voluptates, velit! Debitis eos architecto quisquam aliquam fuga ab rerum consequuntur, cum corporis eaque. Esse voluptate qui sed earum quis illum consequuntur repellendus temporibus rem provident, similique odit ab quia tempore, omnis quaerat. Eos soluta molestiae esse ullam consequuntur. Iste, laudantium.</p>
+        </div>
+      </div>
+      <div class="large-3 columns">
+        <div class="panel">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos temporibus ea libero culpa obcaecati iusto natus dolores nisi nesciunt non sit nostrum animi cumque deserunt quae id veritatis amet, nulla sapiente quasi? Nihil sint assumenda nulla dolores cum perspiciatis neque unde ad voluptatibus temporibus? Cupiditate tempora soluta deserunt harum, doloribus possimus perferendis molestias consequatur. Obcaecati inventore dolorum quis ullam non.</p>
+        </div>
+      </div>
+      <div class="large-12 columns">
+        <div class="panel">
+          <div class="text-center">
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+      </div>

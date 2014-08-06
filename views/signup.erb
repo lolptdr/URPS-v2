@@ -1,16 +1,35 @@
-<div align="center">
-  <h2>Login</h2>
-  <h3>Sign-up</h3>
-  <% if flash[:alert] %>
-  	Alert: <%= flash[:alert] %>
-  	<% end %>
-  <form action='/signup' method='post'>
-    <input type='text' name='username' placeholder='Username'><br>
-    <input type='password' name='password' placeholder='Password'><br />
-    <input type='password' name='password-confirm' placeholder='Confirm Password'><br />
-    <input type='submit' value='Submit'>
+      <div class="large-3 columns">
+        <div class=""></div>
+      </div>
+      <div class="large-6 large-offset-3 columns">
+        <div class="panel">
+          <form action='/signup' method='/post'>
+            <fieldset>
+              <legend>Create Your Account</legend>
 
-
-  </form>
-</div>
-
+              <label>Choose Username
+                <input type="text" placeholder="Username">
+              </label>
+              <label>Choose Password
+                <input type="password" placeholder="Password">
+              </label>
+              <label>Confirm Password
+                <input type="password" placeholder="Confirm Password">
+              </label>
+              <input type="submit" class="button" name="submit" value="Create Account">
+              <a href="index.html" class="button">Return to Login</a>
+              <div data-alert class="alert-box alert radius">
+                <% if flash[:alert] %>
+                  Alert: <%= flash[:alert] %>
+                <% end %>
+                <a href="#" class="close">&times;</a>
+              </div>
+              
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="large-3 columns">
+        <div class=""></div>
+      </div>
+    

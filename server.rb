@@ -2,11 +2,20 @@ require 'sinatra'
 require 'rack-flash'
 require_relative 'lib/sesh.rb'
 
+
 set :bind, '0.0.0.0' 
 set :sessions, true
 use Rack::Flash
 
 get '/' do
+  if session['sesh_example']
+    @user = Sesh.dbi.get_user_by_username(session['sesh_example'])
+  end
+  
+  erb :index
+end
+
+get '/index' do
   if session['sesh_example']
     @user = Sesh.dbi.get_user_by_username(session['sesh_example'])
   end
