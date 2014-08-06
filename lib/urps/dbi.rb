@@ -23,8 +23,8 @@ module Arena
 					id serial NOT NULL PRIMARY KEY,
 					user_id integer REFERENCES users(id),
 					game serial NOT NULL,
-					status varchar(30),
-					opponent varchar(30),
+					status text REFERENCES games(status),
+					opponent integer REFERENCES users(id),
 					created_at timestamp NOT NULL DEFAULT current_timestamp
 				)])
 
@@ -32,11 +32,11 @@ module Arena
 				CREATE TABLE IF NOT EXISTS games(
 					id serial NOT NULL PRIMARY KEY,
 					matches_id integer REFERENCES matches(id),
-					status varchar(30),
-					opponent varchar(30),
+					status text,
+					opponent integer REFERENCES matches(opponent),
 					p1move text,
 					p2move text,
-					result varchar(30),
+					result text,
 					created_at timestamp NOT NULL DEFAULT current_timestamp
 				)])
 
@@ -95,14 +95,52 @@ module Arena
 		end
 
 		def build_user(data)
-		  Sesh::User.new(data['username'], data['password_digest'])
+		  Sesh::User.new(data['username'], data['password_digest'], data['id'].to_i, data['created_at'])
 		end
 
 	######################
 	# Methods for Player #
 	######################
-		def save_player(player)
-		end
+		# def get_id_by_username(username)
+		# 	result = @db.exec(%q[
+		# 		SELECT id FROM users WHERE username = '#{username}';
+		# 	])
+		# end
+
+		# def set_player1(username)
+		# 	player1 = @db.exec(%q[
+		#     SELECT * FROM users WHERE username = '#{username}';
+		#   ])
+
+		#   user_data = player1.first
+		#   # p1set = self.get_id_by_username(user_data)
+
+		#   if user_data
+		#     build_user(user_data)
+		#   else
+		#     nil
+		#   end
+		# end
+
+		# def set_player2(username)
+		# 	player2 = @db.exec(%q[
+		#     SELECT * FROM users WHERE username = '#{username}';
+		#   ])
+
+		#   user_data = player2.first
+		#   # p2set = self.get_id_by_username(user_data)
+
+		#   if user_data
+		#     build_user(user_data)
+		#   else
+		#     nil
+		#   end
+		# end
+
+		def build_user(data)
+      Arena::User.new(data['username'], data['p2'], data["id"].to_i,
+                         data["created_at"])
+    end
 
 	#####################
 	# Methods for Match #
@@ -129,7 +167,7 @@ module Arena
 
 		def match_exists?(game)
 			result = @db.exec(%q[
-				SELECT * FROM users WHERE user_id = '#{user_id}';
+				SELECT * FROM matches WHERE user_id = '#{user_id}';
 			])
 
 			if result.count > 1
@@ -140,7 +178,7 @@ module Arena
 		end
 
 		def build_match(data)
-			Arena::Match.new(data['user_id'], data['status'], data['opponent'])
+			Arena::Match.new(data['game'], data['status'], data['opponent'], data['id'].to_i, data['created_at'])
 		end
 
 
@@ -151,7 +189,7 @@ module Arena
 		@db.exec_params(%q[
 			INSERT INTO games (match_id, status, opponent, p1move, p2move)
 			VALUES ($1, $2, $3);
-			], [match.user_id, match.status, match.opponent])
+			], [game.game_id, game.status, game.opponent, game.p1move, game.p2move])
 	end
 
 	def get_game_by_match_id(match_id)
@@ -169,7 +207,7 @@ module Arena
 
 	def game_exists?(game.id)
 		result = @db.exec(%q[
-			SELECT * FROM games WHERE game.id = '#{game.lid}';
+			SELECT * FROM games WHERE game.id = '#{game.id}';
 		])
 
 		if result.count > 1

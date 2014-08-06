@@ -1,10 +1,12 @@
 module Arena
   class User
-    attr_reader :p1, :p2, :id, :created_at
+    attr_reader :username, :p1, :p2, :id, :created_at
 
-    def initialize(p1, p2, id=nil, created_at=nil)
-      @p1 = p1
+    def initialize(username, p2="pending", id=nil, created_at=nil)
+      @p1 = username
       @p2 = p2
+      @id = id
+      @created_at = created_at
     end
 
     # def play(move1, move2)
