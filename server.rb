@@ -31,7 +31,7 @@ post '/signup' do
   if Arena.dbi.username_exists?(params['username'])
     flash[:alert] = "Username already exists! Use a different username."
   elsif params['password'] == params['password-confirm']
-    user = Arena::User.new(params['username'])
+    user = Arena::User.new(params['username'], params['password'])
     user.update_password(params['password'])
     Arena.dbi.persist_user(user)
     session['sesh_example'] = user.username

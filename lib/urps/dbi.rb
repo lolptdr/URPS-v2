@@ -14,7 +14,7 @@ module Arena
 				CREATE TABLE IF NOT EXISTS users(
 					id serial NOT NULL PRIMARY KEY,
 					username varchar(30),
-					password_digest varchar(30),
+					password_digest varchar(50),
 					created_at timestamp NOT NULL DEFAULT current_timestamp
 				)])
 
@@ -66,10 +66,10 @@ module Arena
 	# Methods for Login and User #
 	##############################
 		def persist_user(user)
-      result = @db.exec_params(%q[ 
+      @db.exec_params(%q[ 
       	INSERT INTO users (username, password_digest)
-      	VALUES ($1,$2)
-      	RETURNING id;], [user.username, user.password_digest])
+      	VALUES ($1,$2);
+      	], [user.username, user.password_digest])
 
       # result.first["id"]
     end
