@@ -8344,3 +8344,12 @@ th.hide-for-touch {
     display: table-cell !important;
   }
 }
+/* line 52, ../scss/app.scss */
+#signup-button {
+  background-color: #000000;
+}
+
+/* line 57, ../scss/app.scss */
+#login-button {
+  background-color: #ae101d;
+}
