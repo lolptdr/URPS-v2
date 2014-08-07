@@ -26,9 +26,12 @@ end
 # returns an array of match objects to your routes
 # [MATCH, MATCH, MATCH, MATCH]
 
+# def find_open_match
+#       return result = @db.exec("SELECT * FROM matches WHERE player2 IS NULL;")
+#     end
 
 # get '/arena' do
-#   @matches = dbi.get_available_matches
+#   @matches = dbi.find_open_match
 # end
 
 # post '/join_match/:id' do
@@ -44,3 +47,10 @@ end
 #   Player name: <%= x.player1 %>
 #   <a href="/join_match/<%= x.id %>">Match whatever</a>
 # <% end %>
+
+
+
+
+
+
+
