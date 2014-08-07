@@ -4,3 +4,5 @@ vendor
 excel-urps.xlsx
 ERD-urps.gliffy
 server.sublime-workspace
+.sass-cache
+.sass-cache/*
