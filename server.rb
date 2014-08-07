@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'rack-flash'
-require_relative 'lib/sesh.rb'
+require_relative 'lib/urps.rb'
 
 
 set :bind, '0.0.0.0' 
@@ -20,6 +20,7 @@ get '/signup' do
 end
 
 post '/signup' do
+
   # This handles issue of blank inputs for sign-up
   if params['username'].empty? or params['password'].empty? or params['password-confirm'].empty?
     flash[:alert] = "Blank inputs!"

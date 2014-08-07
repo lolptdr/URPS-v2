@@ -13,10 +13,10 @@ module Arena
 			@db.exec(%q[
 				CREATE TABLE IF NOT EXISTS users(
 					id serial NOT NULL PRIMARY KEY,
-					username varchar(30)
-					password_digest varchar(30)
+					username varchar(30),
+					password_digest varchar(30),
 					created_at timestamp NOT NULL DEFAULT current_timestamp
-				])
+				)])
 
 			@db.exec(%q[
 				CREATE TABLE IF NOT EXISTS matches(
@@ -24,7 +24,7 @@ module Arena
 					player1 integer REFERENCES users(id),
 					player1_win_count integer,
 					round serial NOT NULL,
-					status text REFERENCES rounds(status),
+					status text,
 					player2 integer REFERENCES users(id),
 					player2_win_count integer,
 					created_at timestamp NOT NULL DEFAULT current_timestamp
@@ -35,8 +35,8 @@ module Arena
 					id serial NOT NULL PRIMARY KEY,
 					match_id integer REFERENCES matches(id),
 					status text,
-					player1 integer REFERENCES matches(player1),
-					player2 integer REFERENCES matches(player2),
+					player1 integer REFERENCES users(id),
+					player2 integer REFERENCES users(id),
 					player1move text,
 					player2move text,
 					result text,
@@ -56,9 +56,9 @@ module Arena
 					favorite_move text,
 					highest_winning_move_vs_opponent text,
 					highest_losing_move_vs_opponent text,
-					%rock double precision,
-					%paper double precision,
-					%scissors double precision,
+					percent_rock double precision,
+					percent_paper double precision,
+					percent_scissors double precision,
 					created_at timestamp NOT NULL DEFAULT current_timestamp
 				)])
 		end
@@ -167,7 +167,7 @@ module Arena
 
 			round_data = result.last
 			if round_data
-				build_match(round_data)
+					build_match(round_data)
 			else
 				nil
 			end
@@ -177,9 +177,9 @@ module Arena
 			Arena::Round.new(data['status'], data['player1move'], data['player2move'], result)
 		end
 
-		def self.dbi
-		  @__db_instance ||= DBI.new
-		end
+	end
+	def self.dbi
+	  @__db_instance ||= DBI.new
 	end
 end
 
