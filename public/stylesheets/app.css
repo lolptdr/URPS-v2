@@ -8345,11 +8345,16 @@ th.hide-for-touch {
   }
 }
 /* line 52, ../scss/app.scss */
-#signup-button {
+.signup-button, .create-account-button {
   background-color: #000000;
 }
 
 /* line 57, ../scss/app.scss */
-#login-button {
+.login-button, .return-to-login-button {
   background-color: #ae101d;
+}
+
+/* line 61, ../scss/app.scss */
+.logout-button {
+  background-color: #3d3d3c;
 }
