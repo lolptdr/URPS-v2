@@ -1,13 +1,13 @@
 module Arena
-  class Match
-    attr_reader :id, :created_at
-    
-    def initialize(game, status="waiting", opponent="pending", id=nil, created_at=nil)
-      @game = game
-      @status = status
-      @opponent = opponent
-      @id = id
-      @created_at = created_at
-    end
-  end
+ class Match
+   attr_accessor :player1, :player2, :player1_win_count, :player2_win_count
+
+   def initialize(player1, player2=nil)
+    @player1 = player1
+    @player2 = player2
+    @player1_win_count = 0
+    @player2_win_count = 0
+    @total_games = 0
+   end
+ end
 end

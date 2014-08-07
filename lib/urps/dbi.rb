@@ -21,19 +21,22 @@ module Arena
 			@db.exec(%q[
 				CREATE TABLE IF NOT EXISTS matches(
 					id serial NOT NULL PRIMARY KEY,
-					user_id integer REFERENCES users(id),
-					game serial NOT NULL,
-					status text REFERENCES games(status),
-					opponent integer REFERENCES users(id),
+					p1 integer REFERENCES users(id),
+					p1_win_count integer,
+					round serial NOT NULL,
+					status text REFERENCES rounds(status),
+					p2 integer REFERENCES users(id),
+					p2_win_count integer,
 					created_at timestamp NOT NULL DEFAULT current_timestamp
 				)])
 
 			@db.exec(%q[
-				CREATE TABLE IF NOT EXISTS games(
+				CREATE TABLE IF NOT EXISTS rounds(
 					id serial NOT NULL PRIMARY KEY,
 					matches_id integer REFERENCES matches(id),
 					status text,
-					opponent integer REFERENCES matches(opponent),
+					p1 integer REFERENCES matches(p1),
+					p2 integer REFERENCES matches(p2),
 					p1move text,
 					p2move text,
 					result text,
@@ -41,15 +44,15 @@ module Arena
 				)])
 
 			@db.exec(%q[
-				CREATE TABLE IF NOT EXISTS records(
+				CREATE TABLE IF NOT EXISTS stats(
 					id serial NOT NULL PRIMARY KEY,
 					user_id integer REFERENCES users(id),
 					total_matches integer,
 					match_wins integer,
 					match_losses integer,
-					game_wins integer,
-					game_losses integer,
-					game_ties integer,
+					round_wins integer,
+					round_losses integer,
+					round_ties integer,
 					favorite_move text,
 					highest_winning_move_vs_opponent text,
 					highest_losing_move_vs_opponent text,
@@ -165,7 +168,7 @@ module Arena
 			end
 		end
 
-		def match_exists?(game)
+		def match_exists?(round)
 			result = @db.exec(%q[
 				SELECT * FROM matches WHERE user_id = '#{user_id}';
 			])
@@ -178,36 +181,36 @@ module Arena
 		end
 
 		def build_match(data)
-			Arena::Match.new(data['game'], data['status'], data['opponent'], data['id'].to_i, data['created_at'])
+			Arena::Match.new(data['round'], data['status'], data['opponent'], data['id'].to_i, data['created_at'])
 		end
 
 
 	####################
-	# Methods for Game #
+	# Methods for round #
 	####################
-	def persist_game()
+	def persist_round()
 		@db.exec_params(%q[
-			INSERT INTO games (match_id, status, opponent, p1move, p2move)
+			INSERT INTO rounds (match_id, status, opponent, p1move, p2move)
 			VALUES ($1, $2, $3);
-			], [game.game_id, game.status, game.opponent, game.p1move, game.p2move])
+			], [round.round_id, round.status, round.opponent, round.p1move, round.p2move])
 	end
 
-	def get_game_by_match_id(match_id)
+	def get_round_by_match_id(match_id)
 		result = @db.exec(%q[
-			SELECT * FROM games WHERE match_id = '#{match_id}';
+			SELECT * FROM rounds WHERE match_id = '#{match_id}';
 		])
 
-		game_data = result.first
-		if game_data
-			build_match(game_data)
+		round_data = result.first
+		if round_data
+			build_match(round_data)
 		else
 			nil
 		end
 	end
 
-	def game_exists?(game.id)
+	def round_exists?(round.id)
 		result = @db.exec(%q[
-			SELECT * FROM games WHERE game.id = '#{game.id}';
+			SELECT * FROM rounds WHERE round.id = '#{round.id}';
 		])
 
 		if result.count > 1
@@ -217,8 +220,8 @@ module Arena
 		end
 	end
 
-	def build_game(data)
-		Arena::Game.new(data['user_id'], data['status'], data['opponent'])
+	def build_round(data)
+		Arena::round.new(data['user_id'], data['status'], data['opponent'])
 	end
 
 
