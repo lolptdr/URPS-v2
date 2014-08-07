@@ -129,7 +129,7 @@ module Arena
 
 		def create_match(player1,player2)
       result = @db.exec_params(%Q[ INSERT INTO matches (player1,player1_win_count,player2_win_count)
-      VALUES ($1,$2,$3,$4) RETURNING id;], [player1,0,0])
+      VALUES ($1,$2,$3) RETURNING id;], [player1,0,0])
 
       result.first["id"]
     end
