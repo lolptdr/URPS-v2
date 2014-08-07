@@ -1,4 +1,4 @@
-module Arena
+module  Arena
  class Match
    attr_accessor :player1, :player2, :player1_win_count, :player2_win_count
 

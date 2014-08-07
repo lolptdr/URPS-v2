@@ -21,7 +21,7 @@ module Arena
 			@db.exec(%q[
 				CREATE TABLE IF NOT EXISTS matches(
 					id serial NOT NULL PRIMARY KEY,
-					player1 integer REFERENCES users(id),
+					pzlayer1 integer REFERENCES users(id),
 					player1_win_count integer,
 					round serial NOT NULL,
 					status text REFERENCES rounds(status),
