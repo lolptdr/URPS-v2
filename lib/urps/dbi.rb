@@ -76,8 +76,8 @@ module Arena
 
 		def get_user_by_username(username)
 		  result = @db.exec(%q[
-		    SELECT * FROM users WHERE username = '#{username}';
-		  ])
+		    SELECT * FROM users WHERE username = $1;
+		  ], [username])
 
 		  user_data = result.first
 		  if user_data
@@ -86,8 +86,6 @@ module Arena
 		    nil
 		  end
 		end
-
-		# result.first = ['username']
 
 		def username_exists?(username)
 		  result = @db.exec(%q[
@@ -102,7 +100,7 @@ module Arena
 		end
 
 		def build_user(data)
-		  Arena::User.new(data['username'], data['password_digest'], data['id'].to_i, data['created_at'])
+		  Arena::User.new(data['username'], data['password_digest'], data['id'].to_i)
 		end
 
 	#####################

@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'rack-flash'
+require 'pry-byebug'
 require_relative 'lib/urps.rb'
 
 
@@ -52,10 +53,12 @@ post '/signin' do
   # This handles the issue of blank inputs on Signin page
   if params['username'].empty? or params['password'].empty?
     flash[:alert] = "Blank inputs!"
+    puts "in signin\n" * 10
     redirect to '/signin'
   end
 
   user = Arena.dbi.get_user_by_username(params['username'])
+  # binding.pry
   if user && user.has_password?(params['password'])
     session['sesh_example'] = user.username
     redirect to '/control_panel'
@@ -70,7 +73,16 @@ get '/control_panel' do
 end
 
 get '/arena' do
+
+  @matches = dbi.find_open_match
+
   erb :arena
+end
+
+post '/join_match/:id' do
+  match = dbi.find_match_by_id(params[:id])
+  match.player2 = current_user.id
+  dbi.update_match(match)
 end
 
 

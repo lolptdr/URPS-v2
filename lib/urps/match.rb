@@ -8,6 +8,7 @@ module  Arena
     @player1_win_count = 0
     @player2_win_count = 0
     @total_games = 0
+    @id = id
    end
  end
 end

@@ -5,20 +5,18 @@
           </div>
           <div class="large-6 large-offset-3 columns">
             <div class="panel">
-              <form>
                 <fieldset>
                   <legend>Login to Your Account</legend>
                     <form action='/signin' method='post'>
                       <input type="text" name="username" placeholder="Username">
                       <input type="password" name="password" placeholder="Password">
-                      <input type="submit" class="button" name="login" value="Login">
+                      <input type="submit" class="button expand" name="login" value="Login">
                     </form>
-                  <a href="/" class="button">Return to Home</a>
+                  <a href="/" class="button expand">Return to Home</a>
                   <% if flash[:alert] %>
                     Alert: <%= flash[:alert] %>
                   <% end %>
                 </fieldset>
-              </form>
             </div>
           </div>
           <div class="large-3 columns">

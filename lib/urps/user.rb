@@ -7,7 +7,7 @@ module Arena
    def initialize(username, password_digest, user_id=nil)
      @username = username
      @password_digest = password_digest
-     # @user_id = sesh.dbi.create_user(@username,@password_digest)
+     @user_id = user_id
    end
 
    def update_password(password)

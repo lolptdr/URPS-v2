@@ -19,12 +19,9 @@
                   </label>
                   <input type="submit" class="button create-account-button " name="submit" value="Create Account">
                   <a href="/" class="button return-to-login-button">Return to Login</a>
-                  <div data-alert class="alert-box alert radius">
                     <% if flash[:alert] %>
                       Alert: <%= flash[:alert] %>
                     <% end %>
-                    <a href="#" class="close">&times;</a>
-                  </div>
                 </fieldset>
               </form>
             </div>
