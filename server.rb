@@ -12,7 +12,7 @@ get '/' do
     @user = Arena.dbi.get_user_by_username(session['sesh_example'])
   end
   
-  erb :index
+  erb :splash
 end
 
 get '/signup' do

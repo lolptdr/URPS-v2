@@ -49,15 +49,18 @@
 ////////////////////////////////////////
 //      PAGE STYLES
 //////////////////////////////////////// 
-#signup-button {
+.signup-button, .create-account-button {
   background-color: #000000;
 }
 
 
-#login-button {
+.login-button, .return-to-login-button {
   background-color: #ae101d;
 }
 
+.logout-button {
+  background-color: #3d3d3c;
+}
 
 
 
