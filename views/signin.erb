@@ -9,22 +9,14 @@
                 <fieldset>
                   <legend>Login to Your Account</legend>
                     <form action='/signin' method='post'>
-                  <!-- <label>Choose Username -->
-                    <input type="text" placeholder="Username">
-                  <!-- </label> -->
-                  <!-- <label>Choose Password -->
-                    <input type="password" placeholder="Password">
-                  <!-- </label> -->
-                  
-                  <input type="submit" class="button" name="login" value="login">
+                      <input type="text" name="username" placeholder="Username">
+                      <input type="password" name="password" placeholder="Password">
+                      <input type="submit" class="button" name="login" value="Login">
                     </form>
-                  <a href="index.html" class="button">Return to Home</a>
-    <!--               <div data-alert class="alert-box alert radius">
-                    <% if flash[:alert] %>
-                      Alert: <%= flash[:alert] %>
-                    <% end %>
-                    <a href="#" class="close">&times;</a>
-                  </div> -->
+                  <a href="/" class="button">Return to Home</a>
+                  <% if flash[:alert] %>
+                    Alert: <%= flash[:alert] %>
+                  <% end %>
                 </fieldset>
               </form>
             </div>
@@ -34,6 +26,3 @@
           </div>
         </div>
       </div>
-
-
-    
