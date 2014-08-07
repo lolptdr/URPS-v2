@@ -15,6 +15,34 @@ get '/' do
   erb :index
 end
 
+get '/signup' do
+  erb :signup
+end
+
+post '/signup' do
+  # This handles issue of blank inputs for sign-up
+  if params['username'].empty? or params['password'].empty? or params['password-confirm'].empty?
+    flash[:alert] = "Blank inputs!"
+    redirect to '/signup'
+  end
+
+  # This handles the issue of two identical users
+  if Sesh.dbi.username_exists?(params['username'])
+    flash[:alert] = "Username already exists! Use a different username."
+  elsif params['password'] == params['password-confirm']
+    user = Sesh::User.new(params['username'])
+    user.update_password(params['password'])
+    Sesh.dbi.persist_user(user)
+    session['sesh_example'] = user.username
+    redirect to '/control_panel'
+    # erb :signin ----> remove, not necessary
+  else
+    flash[:alert] = "Your passwords don't match. Please check your passwords."
+    redirect to '/signup'
+  end
+
+end
+
 get '/signin' do
   erb :signin
 end
@@ -36,32 +64,14 @@ post '/signin' do
   end
 end
 
-get '/signup' do
-  erb :signup
+get '/control_panel' do
+  erb :control_panel
 end
 
-post '/signup' do
-  # This handles issue of blank inputs for sign-up
-  if params['username'].empty? or params['password'].empty? or params['password-confirm'].empty?
-    flash[:alert] = "Blank inputs!"
-    redirect to '/signup'
-  end
-
-  # This handles the issue of two identical users
-  if Sesh.dbi.username_exists?(params['username'])
-    flash[:alert] = "Username already exists! Use a different username."
-  elsif params['password'] == params['password-confirm']
-    user = Sesh::User.new(params['username'])
-    user.update_password(params['password'])
-    Sesh.dbi.persist_user(user)
-    session['sesh_example'] = user.username
-    redirect to '/signin'
-    # erb :signin ----> remove, not necessary
-  else
-    flash[:alert] = "Your passwords don't match. Please check your passwords."
-    redirect to '/signup'
-  end
+get '/arena' do
+  erb :arena
 end
+
 
 get '/signout' do
   session.clear

@@ -1,8 +1,8 @@
-module Arena
+module  Arena
  class Match
-   attr_accessor :player1, :player2, :player1_win_count, :player2_win_count
+   attr_accessor :player1, :player2, :player1_win_count, :player2_win_count, :id
 
-   def initialize(player1, player2=nil)
+   def initialize(player1, player2=nil, id)
     @player1 = player1
     @player2 = player2
     @player1_win_count = 0
