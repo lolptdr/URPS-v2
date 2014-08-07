@@ -9,7 +9,7 @@ use Rack::Flash
 
 get '/' do
   if session['sesh_example']
-    @user = Sesh.dbi.get_user_by_username(session['sesh_example'])
+    @user = Arena.dbi.get_user_by_username(session['sesh_example'])
   end
   
   erb :index
@@ -27,12 +27,12 @@ post '/signup' do
   end
 
   # This handles the issue of two identical users
-  if Sesh.dbi.username_exists?(params['username'])
+  if Arena.dbi.username_exists?(params['username'])
     flash[:alert] = "Username already exists! Use a different username."
   elsif params['password'] == params['password-confirm']
-    user = Sesh::User.new(params['username'])
+    user = Arena::User.new(params['username'])
     user.update_password(params['password'])
-    Sesh.dbi.persist_user(user)
+    Arena.dbi.persist_user(user)
     session['sesh_example'] = user.username
     redirect to '/control_panel'
     # erb :signin ----> remove, not necessary
@@ -54,7 +54,7 @@ post '/signin' do
     redirect to '/signin'
   end
 
-  user = Sesh.dbi.get_user_by_username(params['username'])
+  user = Arena.dbi.get_user_by_username(params['username'])
   if user && user.has_password?(params['password'])
     session['sesh_example'] = user.username
     redirect to '/control_panel'

@@ -8,25 +8,20 @@
               <form action='/signup' method='/post'>
                 <fieldset>
                   <legend>Create Your Account</legend>
-
                   <label>Choose Username
-                    <input type="text" placeholder="Username">
+                    <input type="text" name="username" placeholder="Username">
                   </label>
                   <label>Choose Password
-                    <input type="password" placeholder="Password">
+                    <input type="password" name="password" placeholder="Password">
                   </label>
                   <label>Confirm Password
-                    <input type="password" placeholder="Confirm Password">
+                    <input type="password" name="password-confirm" placeholder="Confirm Password">
                   </label>
                   <input type="submit" class="button" name="submit" value="Create Account">
-                  <a href="index.html" class="button">Return to Login</a>
-                  <div data-alert class="alert-box alert radius">
-                    <% if flash[:alert] %>
-                      Alert: <%= flash[:alert] %>
-                    <% end %>
-                    <a href="#" class="close">&times;</a>
-                  </div>
-                  
+                  <a href="/" class="button">Return to Login</a>
+                  <% if flash[:alert] %>
+                    Alert: <%= flash[:alert] %>
+                  <% end %>                  
                 </fieldset>
               </form>
             </div>
