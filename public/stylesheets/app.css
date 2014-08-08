@@ -8345,32 +8345,32 @@ th.hide-for-touch {
   }
 }
 /* line 34, ../scss/app.scss */
-.signup-button, .create-account-button, .return-to-home {
+.signup-button, .create-account-button, .return-to-home, .black-button {
   background-color: #000000;
 }
 
-/* line 39, ../scss/app.scss */
-.login-button, .return-to-login-button {
+/* line 38, ../scss/app.scss */
+.login-button, .return-to-login-button, .red-button {
   background-color: #ae101d;
 }
 
-/* line 43, ../scss/app.scss */
-.logout-button {
+/* line 42, ../scss/app.scss */
+.logout-button, .gray-button {
   background-color: #3d3d3c;
 }
 
-/* line 47, ../scss/app.scss */
+/* line 46, ../scss/app.scss */
 .top-mar {
   margin-top: 4em;
 }
 
-/* line 55, ../scss/app.scss */
+/* line 54, ../scss/app.scss */
 #logo-group {
   margin-top: .75em;
   margin-bottom: -2em;
 }
 
-/* line 85, ../scss/app.scss */
+/* line 82, ../scss/app.scss */
 #splash-image {
   margin-left: 1.75em;
 }

@@ -31,16 +31,15 @@
 ////////////////////////////////////////
 //      PAGE STYLES
 //////////////////////////////////////// 
-.signup-button, .create-account-button, .return-to-home {
+.signup-button, .create-account-button, .return-to-home, .black-button {
   background-color: #000000;
 }
 
-
-.login-button, .return-to-login-button {
+.login-button, .return-to-login-button, .red-button  {
   background-color: #ae101d;
 }
 
-.logout-button {
+.logout-button, .gray-button {
   background-color: #3d3d3c;
 }
 
@@ -64,10 +63,8 @@
 
 
 ////////////////////////////////////////
-//      LEFT SIDEBAR STYLES
+//      BUTTON RESIZE STYLES
 //////////////////////////////////////// 
-
-
 
 
 
