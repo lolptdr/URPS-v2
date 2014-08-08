@@ -76,10 +76,8 @@ end
 get '/control_panel' do
   @match_host = Arena.dbi.find_open_match
   @check_host = @match_host.map { |x| [x[:id], x[:player1]] }
-  # @check_mid = @match_host.map { |x| x[:id] }
-  # @check_opp = @match_host.map { |x| x[:player1] }
-  check1 = @check_host.map! { |x| [x[0], Arena.dbi.get_username_by_id(x[1])] }
-  binding.pry
+  # 3rd entry corresponds to id, 2nd entry corresponds to username
+  @check_host.map! { |x| [x[0], Arena.dbi.get_username_by_id(x[1]), x[1]] }
 
   erb :control_panel
 end

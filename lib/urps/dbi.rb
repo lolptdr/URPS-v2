@@ -153,12 +153,12 @@ module Arena
     	result = @db.exec(%q[
     		SELECT * FROM matches WHERE player2 IS NULL
     		AND status != 'done';])
-    	result.map { |row| build_match(row) }
-    	# result2 = result.map do |row| 
-    	# 	{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
-    	# 		:round => row["round"], :status => row["status"], :player2 => row["player2"],
-    	# 		:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
-    	# end
+    	# result.map { |row| build_match(row) }
+    	result2 = result.map do |row| 
+    		{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
+    			:round => row["round"], :status => row["status"], :player2 => row["player2"],
+    			:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
+    	end
 
     	# output = result2.map { |x| Arena.dbi.get_username_by_id(x[1]) }
     end
@@ -196,9 +196,21 @@ module Arena
 		end
 
 		def build_match(data)
-			Arena::Match.new(data['player1'], data['player1_win_count'], data['player2'], data['player2_win_count'])
+			Arena::Match.new(data['player1'], data['player2'])
 		end
 
+		# @db.exec(%q[
+		# 	CREATE TABLE IF NOT EXISTS rounds(
+		# 		id serial NOT NULL PRIMARY KEY,
+		# 		match_id integer REFERENCES matches(id),
+		# 		status text,
+		# 		player1 integer REFERENCES users(id),
+		# 		player2 integer REFERENCES users(id),
+		# 		player1move text,
+		# 		player2move text,
+		# 		result text,
+		# 		created_at timestamp NOT NULL DEFAULT current_timestamp
+		# 	)])
 
     def check_match_status(match_id)
       @db.exec("SELECT * from matches WHERE id = #{match_id}")

@@ -174,7 +174,7 @@
             </dd>
           </dl>
         </div>
-        <form action = "" method = "post">
+        <form action = "/control_panel" method = "post">
           <!-- <a href="/arena" class="button expand">Create Match</a> -->
           <input type="submit" class="button expand" name="create-match" value="Create Match"/>
         </form>
@@ -182,20 +182,18 @@
           <h3 class="text-center">Available Matches</h3>
           <table>
             <tr>
-              <th>Match Host</th>
-            </tr>
-            
-            <tr>
               <th>Match ID</th>
               <th>Opponent</th>
             </tr>
-
-              <tr>
                 <% @check_host.each do |x| %>
-                  <td class="text-center"><%= x[0] %></td>
-                  <td class="text-center"><%= x[1] %></td>
+                  <tr>      
+                    <td class="text-center"><%= x[0] %></td>
+                        <td class="text-center">
+                          <a href= <%= '/join_match/' + x[2] %> ><%= x[1] %></a>
+                        </td>
+                  </tr>
                 <% end %>
-              </tr>
+            
           </table>
         </div>
       </div>
