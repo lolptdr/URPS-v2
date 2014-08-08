@@ -78,24 +78,26 @@ get '/control_panel' do
   erb :control_panel
 end
 
-get '/arena' do
-  
-  # @matches = Arena.dbi.find_open_match
-  # if @matches == nil
-  #   create_match(player1, )
-
-  erb :arena
-end
-
 post '/control_panel' do
   # Need form-post submit button "Create Match"
-  Arena.dbi.create_match(@current_user.user_id)
+  response = Arena.dbi.create_match(@current_user.user_id)
+  redirect to '/arena'
+end
+
+get '/arena' do
+  
+  @matches = Arena.dbi.find_open_match
+  if @matches == nil
+    create_match(player1, )
+
+  erb :arena
 end
 
 post '/join_match/:id' do
   match = Arena.dbi.find_match_by_id(params[:id])
   match.player2 = current_user.id
   dbi.update_match(match)
+  redirect '/arena'
 end
 
 get '/control_panel/delete_match/:id' do
