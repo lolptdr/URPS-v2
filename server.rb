@@ -74,7 +74,8 @@ post '/signin' do
 end
 
 get '/control_panel' do
-
+  @match_host = Arena.dbi.find_open_match
+  
   erb :control_panel
 end
 
@@ -88,7 +89,8 @@ get '/arena' do
   
   @matches = Arena.dbi.find_open_match
   if @matches == nil
-    create_match(player1, )
+    create_match(player1)
+  end
 
   erb :arena
 end

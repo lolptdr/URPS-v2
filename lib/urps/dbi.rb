@@ -95,6 +95,14 @@ module Arena
 			result = result.first['id']
 		end
 
+		def get_username_by_id(id)
+			result = @db.exec(%[
+				SELECT * FROM users WHERE id = $1;
+				], [id])
+
+			results = result.first['username']
+		end
+
 		def username_exists?(username)
 		  result = @db.exec(%q[
 		    SELECT * FROM users WHERE username = $1;
@@ -125,7 +133,6 @@ module Arena
 			result = @db.exec_params(%q[
 				SELECT * FROM matches INNER JOIN users ON matches.match_id = users.id;
 				])
-
 		end
 		def create_match(player1, player2=nil)
       result = @db.exec_params(%q[
@@ -135,14 +142,33 @@ module Arena
       result.first['id']
     end
 
+    def find_open_match_to_id
+    	result = @db.exec(%q[
+				SELECT * FROM matches WHERE player2 IS NULL
+				AND status != 'done';])
+    	result2 = result.map { |row| row["id"] }
+    end
+
     def find_open_match
     	result = @db.exec(%q[
-    		SELECT * FROM matches WHERE player2 IS NULL;])
-    	result.map do |row| 
-    		[row["player1"], row["player1_win_count"], row["round"], 
-    		row["status"], row["player2"], row["player2_win_count"],
-    		row["created_at"]]
+    		SELECT * FROM matches WHERE player2 IS NULL
+    		AND status != 'done';])
+    	result2 = result.map do |row| 
+    		{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
+    			:round => row["round"], :status => row["status"], :player2 => row["player2"],
+    			:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
     	end
+
+    	output = result2.each
+
+    	# output = result2.map { |x| Arena.dbi.get_username_by_id(x[1]) }
+    end
+
+   	def find_match_host_name_in_open_matches(player1)
+   		results = @db.exec(%q[
+				SELECT * FROM matches WHERE player1 = $1;
+   			], [player1])
+
    	end
 
 		def get_match_by_user_id(user_id)
