@@ -1,5 +1,21 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation</title>
+    <link rel="stylesheet" href="stylesheets/app.css" />
+    <script src="bower_components/modernizr/modernizr.js"></script>
+  </head>
+  <body>
+    <!-- <div class="row"> -->
+      <div class="large-12 columns">
+        <div id="logo-group" class="large-3 columns left">
+          <a href="/"><img src="images/URPS.png" alt="URPS Logo" width="100"></a>
+          <h6>Let's Get It On!</h6>
+        </div>
       </div>
-      <!-- <div class="large-12 columns" data-equalizer> -->
+      <div class="large-12 columns" data-equalizer>
         <div class="large-4 columns">
           <h3 class="text-center">Player 1</h3>
           <ul class="button-group large-offset-2">
@@ -15,7 +31,7 @@
           <h3 class="text-center">Active Matches</h3>
           <dl class="accordion" data-accordion>
             <dd class="accordion-navigation">
-              <!-- <a href="#panel1" class="text-center">Match 1</a> -->
+              <a href="#panel1" class="text-center">Match 1</a>
               <div id="panel1" class="content">
                 <a href="#" class="button expand">Your Move</a>
                 <a href="#" class="button expand">Quit Match</a>
@@ -107,14 +123,20 @@
         </div>
         <div class="large-4 columns">
           <div>
+            <!-- Alert for Match Win/Lose/Tie Status -->
+            <h1 id="match-result" class="text-center">
+              <% if flash[:alert] %>
+                <%= flash[:alert] %>
+              <% end %>
+            </h1>
             <h1 class="text-center">Match ID</h1>
             <div>
-              <img src="images/octagon.png" alt="Octagon Logo Image">
+              <img src="images/octagon.png" alt="">
             </div>
             <h1 class="text-center">Round #</h1>
           </div>
         </div>
-        <div class="large-4 columns">
+        <div class="large-4 columns" >
           <div>
             <h3 class="text-center">Player 2</h3><br><br>
             <div class="panel" data-equalizer-watch>
@@ -122,6 +144,15 @@
             </div>
           </div>
         </div>
+    </div>
       <div class="row">
-        <div class=""></div>
+        <div class="large-12 columns">
+          <div><br><br></br></div>
+        </div>
       </div>
+      
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/foundation/js/foundation.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
