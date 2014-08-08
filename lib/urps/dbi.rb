@@ -153,13 +153,12 @@ module Arena
     	result = @db.exec(%q[
     		SELECT * FROM matches WHERE player2 IS NULL
     		AND status != 'done';])
-    	result2 = result.map do |row| 
-    		{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
-    			:round => row["round"], :status => row["status"], :player2 => row["player2"],
-    			:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
-    	end
-
-    	output = result2.each
+    	result.map { |row| build_match(row) }
+    	# result2 = result.map do |row| 
+    	# 	{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
+    	# 		:round => row["round"], :status => row["status"], :player2 => row["player2"],
+    	# 		:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
+    	# end
 
     	# output = result2.map { |x| Arena.dbi.get_username_by_id(x[1]) }
     end

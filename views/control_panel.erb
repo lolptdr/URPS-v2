@@ -191,9 +191,9 @@
             </tr>
 
               <tr>
-                <% @match_host.each do |mh| %>
-                  <td class="text-center"><%= mh["id"] %></td>
-                  <td class="text-center"><%= mh["player2"] %></td>
+                <% @check_host.each do |x| %>
+                  <td class="text-center"><%= x[0] %></td>
+                  <td class="text-center"><%= x[1] %></td>
                 <% end %>
               </tr>
           </table>
