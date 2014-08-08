@@ -8,6 +8,10 @@ set :bind, '0.0.0.0'
 set :sessions, true
 use Rack::Flash
 
+before '/*' do
+  @current_user = Arena.dbi.get_user_by_username(session['sesh_example'])
+end
+
 get '/' do
   if session['sesh_example']
     @user = Arena.dbi.get_user_by_username(session['sesh_example'])
@@ -59,6 +63,7 @@ post '/signin' do
   end
 
   user = Arena.dbi.get_user_by_username(params['username'])
+
   if user && user.has_password?(params['password'])
     session['sesh_example'] = user.username
     redirect to '/control_panel'
@@ -69,28 +74,32 @@ post '/signin' do
 end
 
 get '/control_panel' do
-
-  erb :control_panel
-end
-
-get '/arena' do
+  @match_host = Arena.dbi.find_open_match
   
-  # @matches = Arena.dbi.find_open_match
-  # if @matches == nil
-  #   create_match(player1, )
-
-  erb :arena, layout: false
+  erb :control_panel
 end
 
 post '/control_panel' do
   # Need form-post submit button "Create Match"
-  Arena.dbi.create_match
+  response = Arena.dbi.create_match(@current_user.user_id)
+  redirect to '/arena'
+end
+
+get '/arena' do
+  
+  @matches = Arena.dbi.find_open_match
+  if @matches == nil
+    create_match(player1)
+  end
+
+  erb :arena
 end
 
 post '/join_match/:id' do
   match = Arena.dbi.find_match_by_id(params[:id])
   match.player2 = current_user.id
   dbi.update_match(match)
+  redirect '/arena'
 end
 
 get '/control_panel/delete_match/:id' do
