@@ -185,15 +185,14 @@
               <th>Match ID</th>
               <th>Opponent</th>
             </tr>
-                <% @check_host.each do |x| %>
-                  <tr>      
-                    <td class="text-center"><%= x[0] %></td>
-                        <td class="text-center">
-                          <a href= <%= '/join_match/' + x[2] %> ><%= x[1] %></a>
-                        </td>
-                  </tr>
-                <% end %>
-            
+            <% @check_host.each do |x| %>
+              <tr>      
+                <td class="text-center"><%= x[0] %></td>
+                <td class="text-center">
+                  <a href= <%= '/arena/' + x[2] %> ><%= x[1] %></a>
+                </td>
+              </tr>
+            <% end %>
           </table>
         </div>
       </div>

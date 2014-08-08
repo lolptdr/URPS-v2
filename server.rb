@@ -58,7 +58,6 @@ post '/signin' do
   # This handles the issue of blank inputs on Signin page
   if params['username'].empty? or params['password'].empty?
     flash[:alert] = "Blank inputs! Check your username and password."
-    # puts "in signin\n" * 10
     redirect to '/signin'
   end
 
@@ -98,11 +97,22 @@ get '/arena' do
   erb :arena, layout: false
 end
 
-post '/join_match/:id' do
-  match = Arena.dbi.find_match_by_id(params[:id])
-  match.player2 = current_user.id
+get '/arena/:id' do
+  match = Arena.dbi.get_match_by_user_id(params[:id])
+  match.player2 = @current_user.user_id
   dbi.update_match(match)
-  redirect '/arena'
+
+  redirect '/arena/' + params[:id].to_s
+end
+
+get '/arena/:id' do
+
+end
+
+get '/join_match/:id' do
+  match = Arena.dbi.find_match_by_i
+
+  erb :arena
 end
 
 get '/control_panel/delete_match/:id' do

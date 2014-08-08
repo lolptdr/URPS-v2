@@ -142,39 +142,30 @@ module Arena
       result.first['id']
     end
 
-    def find_open_match_to_id
-    	result = @db.exec(%q[
-				SELECT * FROM matches WHERE player2 IS NULL
-				AND status != 'done';])
-    	result2 = result.map { |row| row["id"] }
-    end
-
     def find_open_match
     	result = @db.exec(%q[
     		SELECT * FROM matches WHERE player2 IS NULL
     		AND status != 'done';])
-    	# result.map { |row| build_match(row) }
     	result2 = result.map do |row| 
     		{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
     			:round => row["round"], :status => row["status"], :player2 => row["player2"],
     			:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
     	end
-
-    	# output = result2.map { |x| Arena.dbi.get_username_by_id(x[1]) }
     end
 
-   	def find_match_host_name_in_open_matches(player1)
-   		results = @db.exec(%q[
-				SELECT * FROM matches WHERE player1 = $1;
-   			], [player1])
+    def update_match(match)
+    	response = @db.exec(%q[
+    		UPDATE matches SET player2 = '#{match.player2}'
+        WHERE id = #{match.id};
+      ])
+    	# response.map { |row| build_match(row) }
+    end
 
-   	end
-
-		def get_match_by_user_id(user_id)
+		def get_match_by_user_id(player2)
 			result = @db.exec(%q[
-				SELECT * FROM matches WHERE user_id = $1;
-			], [user_id])
-
+				SELECT * FROM matches WHERE player2 = $1;
+			], [player2.to_i])
+binding.pry
 			match_data = result.first
 			if match_data
 				build_match(match_data)
@@ -198,19 +189,6 @@ module Arena
 		def build_match(data)
 			Arena::Match.new(data['player1'], data['player2'])
 		end
-
-		# @db.exec(%q[
-		# 	CREATE TABLE IF NOT EXISTS rounds(
-		# 		id serial NOT NULL PRIMARY KEY,
-		# 		match_id integer REFERENCES matches(id),
-		# 		status text,
-		# 		player1 integer REFERENCES users(id),
-		# 		player2 integer REFERENCES users(id),
-		# 		player1move text,
-		# 		player2move text,
-		# 		result text,
-		# 		created_at timestamp NOT NULL DEFAULT current_timestamp
-		# 	)])
 
     def check_match_status(match_id)
       @db.exec("SELECT * from matches WHERE id = #{match_id}")
