@@ -8379,3 +8379,8 @@ th.hide-for-touch {
 #panel-height {
   height: 235px;
 }
+
+/* line 106, ../scss/app.scss */
+#panel-vert-text-centr {
+  padding-top: 90px;
+}
