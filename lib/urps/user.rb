@@ -50,7 +50,17 @@ end
 #   <a href="/join_match/<%= x.id %>">Match whatever</a>
 # <% end %>
 
+# beats = { :scissors => rock,
+#           :rock => paper,
+#           :paper => scissors }
 
+# if p1_move == beats[p2_move]
+#   "p1 wins"
+# elsif p2_move == beats[p1_move]
+#   "p2 wins"
+# else
+#   :tie:
+# end
 
 
 

@@ -23,8 +23,8 @@ module Arena
 					id serial NOT NULL PRIMARY KEY,
 					player1 integer REFERENCES users(id),
 					player1_win_count integer,
-					round serial NOT NULL,
-					status text,
+					round integer,
+					status text NULL DEFAULT ('Your move'),
 					player2 integer REFERENCES users(id),
 					player2_win_count integer,
 					created_at timestamp NOT NULL DEFAULT current_timestamp
@@ -87,6 +87,14 @@ module Arena
 		  end
 		end
 
+		def get_id_by_username(username)
+			result = @db.exec(%[
+				SELECT * FROM users WHERE username = $1;
+				], [username])
+
+			result = result.first['id']
+		end
+
 		def username_exists?(username)
 		  result = @db.exec(%q[
 		    SELECT * FROM users WHERE username = $1;
@@ -113,12 +121,18 @@ module Arena
 				], [match.user_id, match.status, match.opponent])
 		end
 
-		def create_match(player1, player2)
-      result = @db.exec_params(%q[
-      	INSERT INTO matches (player1, player1_win_count, player2, player2_win_count)
-      	VALUES ($1,$2,$3,$4) RETURNING id;], [player1,0,NIL,0])
+		def link_match_to_user(id)
+			result = @db.exec_params(%q[
+				SELECT * FROM matches INNER JOIN users ON matches.match_id = users.id;
+				])
 
-      # result.first["id"]
+		end
+		def create_match(player1, player2=nil)
+      result = @db.exec_params(%q[
+      	INSERT INTO matches (player1, player1_win_count, player2_win_count)
+      	VALUES ($1,$2,$3) RETURNING id;], [player1,0,0])
+
+      result.first['id']
     end
 
     def find_open_match
