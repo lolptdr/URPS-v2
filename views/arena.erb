@@ -1,6 +1,131 @@
-
-
-<% @matches.each do |x| %>
-  Player name: <%= x.player1 %>
-  <a href="/join_match/<%= x.id %>">Match whatever</a>
-<% end %>
+      </div>
+      <!-- <div class="large-12 columns" data-equalizer> -->
+        <div class="large-4 columns">
+          <h3 class="text-center">Player 1</h3>
+          <ul class="button-group large-offset-2">
+            <li><a href="#" class="tiny button">Log Out</a></li>
+            <li><a href="/control_panel" class="tiny button">Control Panel</a></li>
+            <li><a href="/control_panel" class="tiny button">Quit Match</a></li>
+          </ul>
+          <div class="panel" data-equalizer-watch>
+            <a href="#" class="button expand">Rock</a>
+            <a href="#" class="button expand">Paper</a>
+            <a href="#" class="button expand">Scissors</a>
+          </div>
+          <h3 class="text-center">Active Matches</h3>
+          <dl class="accordion" data-accordion>
+            <dd class="accordion-navigation">
+              <% @matches.each do |x| %>
+                Player name: <%= x.player1 %>
+                <a href="/join_match/<%= x.id %>">Match whatever</a>
+              <% end %>
+              <!-- <a href="#panel1" class="text-center">Match 1</a> -->
+              <div id="panel1" class="content">
+                <a href="#" class="button expand">Your Move</a>
+                <a href="#" class="button expand">Quit Match</a>
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="text-center" width="20">Round</th>
+                      <th class="text-center" width="30">Status</th>
+                      <th class="text-center" width="50">Opponent</th>
+                      <th class="text-center" width="50">Player 1</th>
+                      <th class="text-center" width="60">Player 2</th>
+                      <th class="text-center" width="50">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center">Round Here</td>
+                      <td class="text-center">Current Status</td>
+                      <td class="text-center">Opponent Name</td>
+                      <td class="text-center">Player 1 Moves Here</td>
+                      <td class="text-center">Player 2 Moves Here</td>
+                      <td class="text-center">Match Result Here</td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </dd>
+            <dd class="accordion-navigation">
+              <a href="#panel2" class="text-center">Match 2</a>
+              <div id="panel2" class="content">
+                <a href="#" class="button expand">Opponent's Move</a>
+                <a href="#" class="button expand">Quit Match</a>
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="text-center" width="20">Round</th>
+                      <th class="text-center" width="30">Status</th>
+                      <th class="text-center" width="50">Opponent</th>
+                      <th class="text-center" width="50">Player 1</th>
+                      <th class="text-center" width="60">Player 2</th>
+                      <th class="text-center" width="50">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center">Round Here</td>
+                      <td class="text-center">Current Status</td>
+                      <td class="text-center">Opponent Name</td>
+                      <td class="text-center">Player 1 Moves Here</td>
+                      <td class="text-center">Player 2 Moves Here</td>
+                      <td class="text-center">Match Result Here</td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </dd>
+            <dd class="accordion-navigation">
+              <a href="#panel3" class="text-center">Match 3</a>
+              <div id="panel3" class="content">
+                <a href="#" class="button expand">Your Move</a>
+                <a href="#" class="button expand">Quit Match</a>
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="text-center" width="20">Round</th>
+                      <th class="text-center" width="30">Status</th>
+                      <th class="text-center" width="50">Opponent</th>
+                      <th class="text-center" width="50">Player 1</th>
+                      <th class="text-center" width="60">Player 2</th>
+                      <th class="text-center" width="50">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center">Round Here</td>
+                      <td class="text-center">Current Status</td>
+                      <td class="text-center">Opponent Name</td>
+                      <td class="text-center">Player 1 Moves Here</td>
+                      <td class="text-center">Player 2 Moves Here</td>
+                      <td class="text-center">Match Result Here</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </dd>
+          </dl>
+        </div>
+        <div class="large-4 columns">
+          <div>
+            <h1 class="text-center">Match ID</h1>
+            <div>
+              <img src="images/octagon.png" alt="Octagon Logo Image">
+            </div>
+            <h1 class="text-center">Round #</h1>
+          </div>
+        </div>
+        <div class="large-4 columns">
+          <div>
+            <h3 class="text-center">Player 2</h3><br><br>
+            <div class="panel" data-equalizer-watch>
+              <p class="text-center">Player 2 Status</p>
+            </div>
+          </div>
+        </div>
+      <div class="row">
+        <div class=""></div>
+      </div>
