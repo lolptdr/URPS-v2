@@ -4,15 +4,15 @@
             <div class=""></div>
           </div>
           <div class="large-6 large-offset-3 columns">
-            <div class="panel">
+            <div class="panel top-mar">
                 <fieldset>
                   <legend>Login to Your Account</legend>
                     <form action='/signin' method='post'>
                       <input type="text" name="username" placeholder="Username">
                       <input type="password" name="password" placeholder="Password">
-                      <input type="submit" class="button expand" name="login" value="Login">
+                      <input type="submit" class="button login-button expand" name="login" value="Login">
                     </form>
-                  <a href="/" class="button expand">Return to Home</a>
+                  <a href="/" class="button return-to-home expand">Return to Home</a>
                   <% if flash[:alert] %>
                     <%= flash[:alert] %>
                   <% end %>

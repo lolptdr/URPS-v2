@@ -6,50 +6,32 @@
 //   "foundation/components/accordion",
 //   "foundation/components/alert-boxes",
 //   "foundation/components/block-grid",
-//   "foundation/components/breadcrumbs",
 //   "foundation/components/button-groups",
 //   "foundation/components/buttons",
 //   "foundation/components/clearing",
 //   "foundation/components/dropdown",
-//   "foundation/components/dropdown-buttons",
-//   "foundation/components/flex-video",
 //   "foundation/components/forms",
 //   "foundation/components/grid",
 //   "foundation/components/inline-lists",
-//   "foundation/components/joyride",
-//   "foundation/components/keystrokes",
 //   "foundation/components/labels",
-//   "foundation/components/magellan",
-//   "foundation/components/orbit",
-//   "foundation/components/pagination",
 //   "foundation/components/panels",
 //   "foundation/components/pricing-tables",
-//   "foundation/components/progress-bars",
-//   "foundation/components/reveal",
-//   "foundation/components/side-nav",
-//   "foundation/components/split-buttons",
-//   "foundation/components/sub-nav",
-//   "foundation/components/switch",
 //   "foundation/components/tables",
 //   "foundation/components/tabs",
 //   "foundation/components/thumbs",
-//   "foundation/components/tooltips",
-//   "foundation/components/top-bar",
-//   "foundation/components/type",
-//   "foundation/components/offcanvas",
-//   "foundation/components/visibility";
 
 
-// COLORS:    ○ Red - #ae101d
-//            ○ Gray - #3d3d3c
-//            ○ Black - #000000
+// COLORS:    Red           - #ae101d
+//            Gray          - #3d3d3c
+//            Light Gray    - #737373
+//            Black         - #000000
 
 
 
 ////////////////////////////////////////
 //      PAGE STYLES
 //////////////////////////////////////// 
-.signup-button, .create-account-button {
+.signup-button, .create-account-button, .return-to-home {
   background-color: #000000;
 }
 
@@ -62,12 +44,18 @@
   background-color: #3d3d3c;
 }
 
+.top-mar {
+  margin-top: 4em;
+}
 
 
 ////////////////////////////////////////
 //      HEADER STYLES
 //////////////////////////////////////// 
-
+#logo-group {
+  margin-top: .75em;
+  margin-bottom: -2em
+}
 
 
 
@@ -94,7 +82,9 @@
 ////////////////////////////////////////
 //      CENTER DIV STYLES
 //////////////////////////////////////// 
-
+#splash-image {
+  margin-left: 1.75em;
+}
 
 
 
