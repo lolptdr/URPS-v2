@@ -8374,3 +8374,8 @@ th.hide-for-touch {
 #splash-image {
   margin-left: 1.75em;
 }
+
+/* line 102, ../scss/app.scss */
+#panel-height {
+  height: 235px;
+}
