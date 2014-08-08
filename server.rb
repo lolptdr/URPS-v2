@@ -13,7 +13,7 @@ get '/' do
     @user = Arena.dbi.get_user_by_username(session['sesh_example'])
   end
   
-  erb :splash
+  erb :splash, layout: false
 end
 
 get '/signup' do
@@ -31,6 +31,7 @@ post '/signup' do
   # This handles the issue of two identical users
   if Arena.dbi.username_exists?(params['username'])
     flash[:alert] = "Username already exists! Use a different username."
+    redirect to '/signup'
   elsif params['password'] == params['password-confirm']
     user = Arena::User.new(params['username'], params['password'])
     user.update_password(params['password'])
@@ -69,6 +70,7 @@ post '/signin' do
 end
 
 get '/control_panel' do
+
   erb :control_panel
 end
 

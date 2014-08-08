@@ -89,8 +89,8 @@ module Arena
 
 		def username_exists?(username)
 		  result = @db.exec(%q[
-		    SELECT * FROM users WHERE username = '#{username}';
-		  ])
+		    SELECT * FROM users WHERE username = $1;
+			], [username])
 
 		  if result.count > 1
 		    true

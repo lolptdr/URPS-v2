@@ -11,5 +11,6 @@ module Arena
     end
 
     def play(player2move)
+    end
   end
 end
