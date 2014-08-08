@@ -20,7 +20,7 @@
                   <input type="submit" class="button create-account-button " name="submit" value="Create Account">
                   <a href="/" class="button return-to-login-button">Return to Login</a>
                     <% if flash[:alert] %>
-                      Alert: <%= flash[:alert] %>
+                      <%= flash[:alert] %>
                     <% end %>
                 </fieldset>
               </form>

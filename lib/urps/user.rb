@@ -43,6 +43,8 @@ end
 
 # arena.erb
 
+
+# Attempted placement below dd.accordion-navigation:
 # <% @matches.each do |x| %>
 #   Player name: <%= x.player1 %>
 #   <a href="/join_match/<%= x.id %>">Match whatever</a>

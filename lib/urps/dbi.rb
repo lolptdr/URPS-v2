@@ -124,12 +124,17 @@ module Arena
     def find_open_match
     	result = @db.exec(%q[
     		SELECT * FROM matches WHERE player2 IS NULL;])
+    	result.map do |row| 
+    		[row["player1"], row["player1_win_count"], row["round"], 
+    		row["status"], row["player2"], row["player2_win_count"],
+    		row["created_at"]]
+    	end
    	end
 
 		def get_match_by_user_id(user_id)
 			result = @db.exec(%q[
-				SELECT * FROM matches WHERE user_id = '#{user_id}';
-			])
+				SELECT * FROM matches WHERE user_id = $1;
+			], [user_id])
 
 			match_data = result.first
 			if match_data
@@ -139,6 +144,18 @@ module Arena
 			end
 		end
 
+		def match_exists?(id)
+		  result = @db.exec(%q[
+		    SELECT * FROM users WHERE username = $1;
+			], [username])
+
+		  if result.count > 1
+		    true
+		  else
+		    false
+		  end
+		end
+
 		def build_match(data)
 			Arena::Match.new(data['player1'], data['player1_win_count'], data['player2'], data['player2_win_count'])
 		end
@@ -146,6 +163,13 @@ module Arena
 
     def check_match_status(match_id)
       @db.exec("SELECT * from matches WHERE id = #{match_id}")
+    end
+
+    def delete_match(id)
+    	@db.exec_params(%q[
+    		DELETE FROM matches
+    		where ID = $1;
+    		], [id])
     end
 
 		#####################

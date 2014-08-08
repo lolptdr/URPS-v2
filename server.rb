@@ -24,7 +24,7 @@ post '/signup' do
 
   # This handles issue of blank inputs for sign-up
   if params['username'].empty? or params['password'].empty? or params['password-confirm'].empty?
-    flash[:alert] = "Blank inputs!"
+    flash[:alert] = "Blank inputs! Check your username and password."
     redirect to '/signup'
   end
 
@@ -53,18 +53,17 @@ end
 post '/signin' do
   # This handles the issue of blank inputs on Signin page
   if params['username'].empty? or params['password'].empty?
-    flash[:alert] = "Blank inputs!"
-    puts "in signin\n" * 10
+    flash[:alert] = "Blank inputs! Check your username and password."
+    # puts "in signin\n" * 10
     redirect to '/signin'
   end
 
   user = Arena.dbi.get_user_by_username(params['username'])
-  # binding.pry
   if user && user.has_password?(params['password'])
     session['sesh_example'] = user.username
     redirect to '/control_panel'
   else
-    flash[:alert] = "THAT'S NOT THE RIGHT PASSWORD!!!!"
+    flash[:alert] = "Incorrect username and/or password!"
     redirect to '/signin'
   end
 end
@@ -75,24 +74,36 @@ get '/control_panel' do
 end
 
 get '/arena' do
+  
+  # @matches = Arena.dbi.find_open_match
+  # if @matches == nil
+  #   create_match(player1, )
 
-  @matches = dbi.find_open_match
+  erb :arena, layout: false
+end
 
-  erb :arena
+post '/control_panel' do
+  # Need form-post submit button "Create Match"
+  Arena.dbi.create_match
 end
 
 post '/join_match/:id' do
-  match = dbi.find_match_by_id(params[:id])
+  match = Arena.dbi.find_match_by_id(params[:id])
   match.player2 = current_user.id
   dbi.update_match(match)
 end
 
+get '/control_panel/delete_match/:id' do
+  Arena.dbi.delete_match(params[:id].to_i)
+  redirect to '/control_panel'
+end
+
+get '/arena/delete_match/:id' do
+  Arena.dbi.delete_match(params[:id].to_i)
+  redirect to '/arena'
+end
 
 get '/signout' do
   session.clear
   redirect to '/'
-end
-
-get '/arena' do
-  erb :arena
 end
