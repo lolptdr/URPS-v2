@@ -84,7 +84,7 @@
           <dl class="accordion" data-accordion>
             <dd class="accordion-navigation">
               <a href="#panel1" class="text-center">Match 1</a>
-              <div id="panel1" class="content active">
+              <div id="panel1" class="content">
                 <a href="#" class="button expand">Your Move</a>
                 <a href="#" class="button expand">Quit Match</a>
                 <table>
@@ -178,4 +178,18 @@
           <!-- <a href="/arena" class="button expand">Create Match</a> -->
           <input type="submit" class="button expand" name="create-match" value="Create Match"/>
         </form>
+        <div class="panel">
+          <h3 class="text-center">Available Matches</h3>
+          <table>
+            <tr>
+              <th>Match Host</th>
+            </tr>
+            
+            <% @users.each do |am| %>
+              <tr>
+                <td><%= am.first %></td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
       </div>
