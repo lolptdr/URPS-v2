@@ -123,6 +123,10 @@
         </div>
         <div class="large-4 columns">
           <div>
+            <!-- Alert for Match Win/Lose/Tie Status -->
+            <% if flash[:alert] %>
+              <%= flash[:alert] %>
+            <% end %>
             <h1 class="text-center">Match ID</h1>
             <div>
               <img src="images/octagon.png" alt="">
