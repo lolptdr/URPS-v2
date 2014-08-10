@@ -75,7 +75,8 @@ end
 get '/control_panel' do
   @match_host = Arena.dbi.find_open_match
   @check_host = @match_host.map { |x| [x[:id], x[:player1]] }
-  # 3rd entry corresponds to id, 2nd entry corresponds to username
+  # 3rd entry corresponds to user's id, 2nd entry corresponds to username
+  # 1st entry corresponds to match_id
   @check_host.map! { |x| [x[0], Arena.dbi.get_username_by_id(x[1]), x[1]] }
 
   erb :control_panel
@@ -97,23 +98,29 @@ get '/arena' do
   erb :arena, layout: false
 end
 
-get '/arena/:id' do
-  match = Arena.dbi.get_match_by_user_id(params[:id])
-  match.player2 = @current_user.user_id
-  dbi.update_match(match)
+get '/arena/:match_id/:id' do
 
-  redirect '/arena/' + params[:id].to_s
+  # match = Arena.dbi.update_match_for_player2(@current_user.user_id, params["id"])
+  match = Arena.dbi.update_match_for_player2(params["match_id"], params["id"])
+  
+  # match = Arena.dbi.get_match_by_user_id(params["id"])
+  # match.player2 = @current_user.user_id
+  
+  # using update_match_for_player2 method combining Arena.dbi.update_match(match)
+
+  redirect '/arena/' + params['match_id'] + params['id'].to_s
 end
 
-get '/arena/:id' do
+
+post '/arena/:id' do
 
 end
 
-get '/join_match/:id' do
-  match = Arena.dbi.find_match_by_i
+# get '/join_match/:id' do
+#   match = Arena.dbi.find_match_by_id
 
-  erb :arena
-end
+#   erb :arena
+# end
 
 get '/control_panel/delete_match/:id' do
   Arena.dbi.delete_match(params[:id].to_i)

@@ -155,9 +155,38 @@ module Arena
 
     def update_match(match)
     	response = @db.exec(%q[
-    		UPDATE matches SET player2 = '#{match.player2}'
-        WHERE id = #{match.id};
-      ])
+    		UPDATE matches SET player1_win_count = $1 AND round = $2 AND status = $3
+    		AND player2_win_count = $4
+        WHERE id = $5;
+      ], [match['player_1_win_count'], match['round'], match['status'], match['player2_win_count'],
+      		 match['id'] ])
+
+    end
+
+    def update_match_for_player2(match_id, player2)
+    	response = @db.exec(%q[
+    		UPDATE matches SET player2 = $2
+        WHERE id = $1 RETURNING *;
+      ], [match_id.to_i, player2.to_i])
+
+    	if response[0]['round'] == nil
+    		response[0]['round'] = 0
+    	else
+    		response[0]['round'] += 1
+    	end
+
+    	if 
+
+
+
+    	# response = @db.exec(%q[SELECT * FROM matches])
+     #  result2 = response.map do |row|
+     #  	{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
+    	# 		:round => row["round"], :status => row["status"], :player2 => row["player2"],
+    	# 		:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
+    	# end
+binding.pry
+    	# update_match(result2)
     	# response.map { |row| build_match(row) }
     end
 
@@ -165,7 +194,6 @@ module Arena
 			result = @db.exec(%q[
 				SELECT * FROM matches WHERE player2 = $1;
 			], [player2.to_i])
-binding.pry
 			match_data = result.first
 			if match_data
 				build_match(match_data)
