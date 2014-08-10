@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <div class="large-7 columns top-mar left">
+      <div class="large-7 columns top-mar">
         <div class="panel">
           <h3 class="text-center">Active Matches</h3>
           <dl class="accordion" data-accordion>
@@ -180,6 +180,7 @@
         </form>
         <div class="panel">
           <h3 class="text-center">Available Matches</h3>
+<<<<<<< HEAD
           <table>
             <tr>
               <th>Match ID</th>
@@ -191,8 +192,23 @@
                 <td class="text-center">
                   <a href= <%= '/arena/' + x[0] + '/' + x[2] %> ><%= x[1] %></a>
                 </td>
+=======
+          <div class="small-7 small-centered columns">
+            <table>
+              <tr class="text-center">
+                <th>Match ID</th>
+                <th>Opponent (click to join)</th>
+>>>>>>> 2a1474fc1264d0eb5ecd912c734bd0bdbf7c0d55
               </tr>
-            <% end %>
-          </table>
+              <% @check_host.each do |x| %>
+                <tr>      
+                  <td class="text-center"><%= x[0] %></td>
+                  <td class="text-center">
+                    <a href= <%= '/arena/' + x[2] %> ><%= x[1] %></a>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
         </div>
       </div>
