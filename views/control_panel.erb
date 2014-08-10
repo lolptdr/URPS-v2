@@ -180,31 +180,17 @@
         </form>
         <div class="panel">
           <h3 class="text-center">Available Matches</h3>
-<<<<<<< HEAD
-          <table>
-            <tr>
-              <th>Match ID</th>
-              <th>Opponent</th>
-            </tr>
-            <% @check_host.each do |x| %>
-              <tr>      
-                <td class="text-center"><%= x[0] %></td>
-                <td class="text-center">
-                  <a href= <%= '/arena/' + x[0] + '/' + x[2] %> ><%= x[1] %></a>
-                </td>
-=======
           <div class="small-7 small-centered columns">
             <table>
-              <tr class="text-center">
+              <tr>
                 <th>Match ID</th>
                 <th>Opponent (click to join)</th>
->>>>>>> 2a1474fc1264d0eb5ecd912c734bd0bdbf7c0d55
               </tr>
               <% @check_host.each do |x| %>
                 <tr>      
                   <td class="text-center"><%= x[0] %></td>
                   <td class="text-center">
-                    <a href= <%= '/arena/' + x[2] %> ><%= x[1] %></a>
+                    <a href= <%= '/arena/' + x[0] + '/' + x[2] %> ><%= x[1] %></a>
                   </td>
                 </tr>
               <% end %>
