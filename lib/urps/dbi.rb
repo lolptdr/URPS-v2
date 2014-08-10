@@ -169,14 +169,21 @@ module Arena
         WHERE id = $1 RETURNING *;
       ], [match_id.to_i, player2.to_i])
 
-    	if response[0]['round'] == nil
-    		response[0]['round'] = 0
+    	if response[0][:round] == nil
+    		response[0][:round] = 0
     	else
-    		response[0]['round'] += 1
+    		response[0][:round] += 1
     	end
-
-    	if 
-
+binding.pry
+    	if response[0][:status] == "Your move" && !response[0][:round].even?
+    		response[0][:status] = "Their move"
+    	elsif response[0][:status] == "Their move"
+    		response[0][:status] == "Your move"
+    	elsif player1_win_count == 3 || player2_win_count == 3
+    		response[0][:status] == "Game Over"
+    	else
+    		response[0][:status] == "????"
+    	end
 
 
     	# response = @db.exec(%q[SELECT * FROM matches])
@@ -185,7 +192,7 @@ module Arena
     	# 		:round => row["round"], :status => row["status"], :player2 => row["player2"],
     	# 		:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
     	# end
-binding.pry
+
     	# update_match(result2)
     	# response.map { |row| build_match(row) }
     end

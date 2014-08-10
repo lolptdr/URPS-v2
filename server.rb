@@ -102,10 +102,9 @@ get '/arena/:match_id/:id' do
 
   # match = Arena.dbi.update_match_for_player2(@current_user.user_id, params["id"])
   match = Arena.dbi.update_match_for_player2(params["match_id"], params["id"])
-  
+  binding.pry
   # match = Arena.dbi.get_match_by_user_id(params["id"])
   # match.player2 = @current_user.user_id
-  
   # using update_match_for_player2 method combining Arena.dbi.update_match(match)
 
   redirect '/arena/' + params['match_id'] + params['id'].to_s
