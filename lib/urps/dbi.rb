@@ -62,9 +62,9 @@ module Arena
 					created_at timestamp NOT NULL DEFAULT current_timestamp
 				)])
 		end
-	##############################
-	# Methods for Login and User #
-	##############################
+		##############################
+		# Methods for Login and User #
+		##############################
 		def persist_user(user)
       @db.exec_params(%q[ 
       	INSERT INTO users (username, password_digest)
@@ -85,6 +85,7 @@ module Arena
 		  else
 		    nil
 		  end
+		  # binding.pry
 		end
 
 		def get_id_by_username(username)
@@ -119,9 +120,9 @@ module Arena
 		  Arena::User.new(data['username'], data['password_digest'], data['id'].to_i)
 		end
 
-	#####################
-	# Methods for Match #
-	#####################
+		#####################
+		# Methods for Match #
+		#####################
 		def persist_match(match)
 			@db.exec_params(%q[
 				INSERT INTO matches (player1, player2, status, opponent)
@@ -169,7 +170,7 @@ module Arena
         WHERE id = $1 RETURNING *;
       ], [match_id.to_i, player2.to_i])
     	
-    	response = @db.exec(%q[SELECT * FROM matches WHERE id = $1],[match_id.to_i])
+    	# response = @db.exec(%q[SELECT * FROM matches WHERE id = $1],[match_id.to_i])
       result2 = response.map do |row|
       	{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
     			:round => row["round"], :status => row["status"], :player2 => row["player2"],
@@ -178,12 +179,18 @@ module Arena
 
     	result3 = result2.each_index do |x|
 	    	if result2[x][:round] == nil
-	    		result2[x][:round] = 0
+	    		result2[x][:round] = 1
+	    		@db.exec(%q[
+						UPDATE matches SET round = 1 WHERE id = $1;
+			    	], [result2[x][:id]])
 	    	else
 	    		result2[x][:round] += 1
+	    		@db.exec(%q[
+						UPDATE matches SET round = $1 WHERE id = $2;
+			    	], [result2[x][:round], result2[x][:id]])
 	    	end
 
-	    	if result2[x][:status] == "Your move" && !result2[x][:round].even?
+	    	if result2[x][:status] == "Your move" && result2[x][:round] != 1
 	    		result2[x][:status] = "Their move"
 	    	elsif result2[x][:status] == "Their move"
 	    		result2[x][:status] == "Your move"
@@ -192,13 +199,12 @@ module Arena
 	    	else
 	    		result2[x][:status] == "Error????"
 	    	end
+	    	@db.exec(%q[
+					UPDATE matches SET status = $1 WHERE id = $2;
+	    		], [result2[x][:status], result2[x][:id]])
 	    end
 
-    	# update_match(result2)
-    	# response.map { |row| build_match(row) }
     end
-
-
 
 		def get_match_by_user_id(player2)
 			result = @db.exec(%q[
@@ -210,6 +216,15 @@ module Arena
 			else
 				nil
 			end
+		end
+
+		def get_match_by_id(match_id)
+			result = @db.exec(%q[
+				SELECT * FROM matches WHERE id = $1
+				], [match_id.to_i])
+			
+			match_data = result.first
+
 		end
 
 		def match_exists?(id)
@@ -244,9 +259,10 @@ module Arena
 		#####################
 		def persist_round(round)
 			@db.exec_params(%q[
-				INSERT INTO rounds (status, player1move, player2move, result)
+				INSERT INTO rounds (match_id, status, player1, player2)
 				VALUES ($1, $2, $3, $4);
-				], [round.status, round.player1move, round.player2move, round.result])
+				], [round["id"], round["status"], round["player1"], round["player2"] ])
+			binding.pry
 		end
 
 		def get_latest_round_by_match_id(match_id)
@@ -366,6 +382,22 @@ module Arena
 
 
 
+
+		def update_round_by_move(move, match_id, player1, player2)
+
+			@db.exec_params(%q[
+				UPDATE rounds SET player1move = $1 
+				])
+
+			response = @db.exec(%q[SELECT * FROM rounds WHERE id = $1],[match_id.to_i])
+		  result2 = response.map do |row|
+		  	{ :id => row["id"], :match_id => row["match_id"], :status => row["status"],
+					:player1 => row["player1"], :player2 => row["player2"], :player1move => row["player1move"],
+					:player2move => row["player2move"], :result => row["result"], :created_at => row["created_at"] }
+			end
+
+
+		end
 
 		def build_round(data)
 			Arena::Round.new(data['status'], data['player1move'], data['player2move'], result)

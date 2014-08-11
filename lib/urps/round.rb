@@ -6,7 +6,7 @@ module Arena
       @player1move = player1move
       @player2move = player2move
       @status = status
-      @result = nil
+      @result = result
       @match_id = match_id
     end
 
