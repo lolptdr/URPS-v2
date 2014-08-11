@@ -176,6 +176,9 @@
         </div>
         <form action = "/control_panel" method = "post">
           <input type="submit" class="button expand" name="create-match" value="Create Match"/>
+          <% if flash[:alert] %>
+            <%= flash[:alert] %>
+          <% end %>
         </form>
         <div class="panel">
           <h3 class="text-center">Available Matches</h3>

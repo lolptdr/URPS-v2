@@ -84,8 +84,13 @@ end
 
 post '/control_panel' do
   # Need form-post submit button "Create Match"
-  response = Arena.dbi.create_match(@current_user.user_id)
-  redirect to '/control_panel'
+  if @current_user == nil
+    flash[:alert] = "You have logged out. Log in again."
+    redirect to "/control_panel"
+  else
+    response = Arena.dbi.create_match(@current_user.user_id)
+    redirect to '/control_panel'
+  end
 end
 
 get '/arena/:match_id/:id' do
