@@ -88,38 +88,39 @@ post '/control_panel' do
   redirect to '/arena'
 end
 
-get '/arena' do
-  
-  @matches = Arena.dbi.find_open_match
-  if @matches == nil
-    create_match(player1)
-  end
+# get '/arena/' do
+#   binding.pry
+#   user_id = Arena.dbi.get_p1id_by_match_id()
+#   Arena.dbi.get_username_by_id(user_id)
 
-  erb :arena, layout: false
-end
+#   erb :arena, layout: false
+# end
 
 get '/arena/:match_id/:id' do
-
   # match = Arena.dbi.update_match_for_player2(@current_user.user_id, params["id"])
-  match = Arena.dbi.update_match_for_player2(params["match_id"], params["id"])
-  binding.pry
+  @match = Arena.dbi.update_match_for_player2(params["match_id"], params["id"])
   # match = Arena.dbi.get_match_by_user_id(params["id"])
   # match.player2 = @current_user.user_id
   # using update_match_for_player2 method combining Arena.dbi.update_match(match)
-
-  redirect '/arena/' + params['match_id'] + params['id'].to_s
+  # redirect '/arena/' + params['match_id'].to_s + '/' + params['id'].to_s + '/persist'
+  # redirect to '/arena'
+puts "hey\n" * 10
+  # Need method function to check status of the game. Do this by looking
+  # at the database for a particular matchID.
+  # If P1 value is null and P2 value is null, then it is the "Start of the Game. Waiting for P1".
+  # If P2 is null but P1 is not null, then it is "P2's turn"
+  # If P1 and P2 are not null, then output the game result. (ex: P1 wins...rock  over scissor) 
+  # Output results to view
+  erb :arena, layout: false
 end
 
 
-post '/arena/:id' do
 
-end
 
-# get '/join_match/:id' do
-#   match = Arena.dbi.find_match_by_id
-
-#   erb :arena
+# get '/arena/:match_id/:id/persist' do
+#   erb :arena, layout: false
 # end
+
 
 get '/control_panel/delete_match/:id' do
   Arena.dbi.delete_match(params[:id].to_i)
