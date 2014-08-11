@@ -179,12 +179,18 @@ module Arena
 
     	result3 = result2.each_index do |x|
 	    	if result2[x][:round] == nil
-	    		result2[x][:round] = 0
+	    		result2[x][:round] = 1
+	    		@db.exec(%q[
+						UPDATE matches SET round = 1 WHERE id = $1;
+			    	], [result2[x][:id]])
 	    	else
 	    		result2[x][:round] += 1
+	    		@db.exec(%q[
+						UPDATE matches SET round = $1 WHERE id = $2;
+			    	], [result2[x][:round], result2[x][:id]])
 	    	end
 
-	    	if result2[x][:status] == "Your move" && !result2[x][:round].even?
+	    	if result2[x][:status] == "Your move" && result2[x][:round] != 1
 	    		result2[x][:status] = "Their move"
 	    	elsif result2[x][:status] == "Their move"
 	    		result2[x][:status] == "Your move"
@@ -193,13 +199,12 @@ module Arena
 	    	else
 	    		result2[x][:status] == "Error????"
 	    	end
+	    	@db.exec(%q[
+					UPDATE matches SET status = $1 WHERE id = $2;
+	    		], [result2[x][:status], result2[x][:id]])
 	    end
 
-    	# update_match(result2)
-    	# response.map { |row| build_match(row) }
     end
-
-
 
 		def get_match_by_user_id(player2)
 			result = @db.exec(%q[
@@ -211,6 +216,15 @@ module Arena
 			else
 				nil
 			end
+		end
+
+		def get_match_by_id(match_id)
+			result = @db.exec(%q[
+				SELECT * FROM matches WHERE id = $1
+				], [match_id.to_i])
+			
+			match_data = result.first
+
 		end
 
 		def match_exists?(id)
@@ -244,12 +258,11 @@ module Arena
 		# Methods for Round #
 		#####################
 		def persist_round(round)
-			binding.pry
 			@db.exec_params(%q[
-				INSERT INTO rounds (status, player1move, player2move, result)
+				INSERT INTO rounds (match_id, status, player1, player2)
 				VALUES ($1, $2, $3, $4);
-				], [round.status, round.player1move, round.player2move, round.result])
-
+				], [round["id"], round["status"], round["player1"], round["player2"] ])
+			binding.pry
 		end
 
 		def get_latest_round_by_match_id(match_id)
