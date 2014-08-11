@@ -168,34 +168,37 @@ module Arena
     		UPDATE matches SET player2 = $2
         WHERE id = $1 RETURNING *;
       ], [match_id.to_i, player2.to_i])
-
-    	if response[0][:round] == nil
-    		response[0][:round] = 0
-    	else
-    		response[0][:round] += 1
-    	end
-binding.pry
-    	if response[0][:status] == "Your move" && !response[0][:round].even?
-    		response[0][:status] = "Their move"
-    	elsif response[0][:status] == "Their move"
-    		response[0][:status] == "Your move"
-    	elsif player1_win_count == 3 || player2_win_count == 3
-    		response[0][:status] == "Game Over"
-    	else
-    		response[0][:status] == "????"
+    	
+    	response = @db.exec(%q[SELECT * FROM matches WHERE id = $1],[match_id.to_i])
+      result2 = response.map do |row|
+      	{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
+    			:round => row["round"], :status => row["status"], :player2 => row["player2"],
+    			:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
     	end
 
+    	result3 = result2.each_index do |x|
+	    	if result2[x][:round] == nil
+	    		result2[x][:round] = 0
+	    	else
+	    		result2[x][:round] += 1
+	    	end
 
-    	# response = @db.exec(%q[SELECT * FROM matches])
-     #  result2 = response.map do |row|
-     #  	{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
-    	# 		:round => row["round"], :status => row["status"], :player2 => row["player2"],
-    	# 		:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
-    	# end
+	    	if result2[x][:status] == "Your move" && !result2[x][:round].even?
+	    		result2[x][:status] = "Their move"
+	    	elsif result2[x][:status] == "Their move"
+	    		result2[x][:status] == "Your move"
+	    	elsif result2[x][:player1_win_count] == 3 || result2[x][:player2_win_count] == 3
+	    		result2[x][:status] == "Game Over"
+	    	else
+	    		result2[x][:status] == "Error????"
+	    	end
+	    end
 
     	# update_match(result2)
     	# response.map { |row| build_match(row) }
     end
+
+
 
 		def get_match_by_user_id(player2)
 			result = @db.exec(%q[
