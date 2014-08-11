@@ -8364,23 +8364,33 @@ th.hide-for-touch {
   margin-top: 4em;
 }
 
+/* line 50, ../scss/app.scss */
+.small-top-mar {
+  margin-top: 2em;
+}
+
 /* line 54, ../scss/app.scss */
+.welcome {
+  margin-top: .75em;
+}
+
+/* line 62, ../scss/app.scss */
 #logo-group {
   margin-top: .75em;
   margin-bottom: -2em;
 }
 
-/* line 82, ../scss/app.scss */
+/* line 90, ../scss/app.scss */
 #splash-image {
   margin-left: 1.75em;
 }
 
-/* line 102, ../scss/app.scss */
+/* line 110, ../scss/app.scss */
 #panel-height {
   height: 235px;
 }
 
-/* line 106, ../scss/app.scss */
+/* line 114, ../scss/app.scss */
 #panel-vert-text-centr {
   padding-top: 90px;
 }

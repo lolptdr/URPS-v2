@@ -1,11 +1,13 @@
-        <div class="large-3 columns">
-          <h3><span class="right text-center">You are logged in as "<%= @current_user.username %>" </span></h3>
-          <a href="/signout" class="button right">Logout</a> 
+        <div class="large-3 small-4 medium-6 columns">
+          <h4><span class="right welcome">Welcome, <%= @current_user.username %>! </span></h4>
+          <div class="row">
+            <a href="/signout" class="button small right">Logout</a> 
+          </div>
         </div>
       </div>
 
       <div class="large-5 columns left">
-        <div class="panel top-mar">
+        <div class="panel small-top-mar">
           <table>
             <thead>
               <tr>
@@ -79,16 +81,11 @@
         </div>
       </div>
 
-      <div class="large-7 columns top-mar">
+      <div class="large-7 columns small-top-mar">
         <div class="panel">
           <h3 class="text-center">Active Matches</h3>
-          <dl class="accordion" data-accordion>
-            <dd class="accordion-navigation">
-              <a href="#panel1" class="text-center">Match 1</a>
-              <div id="panel1" class="content">
-                <a href="#" class="button expand">Your Move</a>
-                <a href="#" class="button expand">Quit Match</a>
-                <table>
+          <% DB Current Match Stats %>
+          <table>
                   <thead>
                     <tr>
                       <th class="text-center" width="20">Round</th>
@@ -111,69 +108,6 @@
                     
                   </tbody>
                 </table>
-              </div>
-            </dd>
-            <dd class="accordion-navigation">
-              <a href="#panel2" class="text-center">Match 2</a>
-              <div id="panel2" class="content">
-                <a href="#" class="button expand">Opponent's Move</a>
-                <a href="#" class="button expand">Quit Match</a>
-                <table>
-                  <thead>
-                    <tr>
-                      <th class="text-center" width="20">Round</th>
-                      <th class="text-center" width="30">Status</th>
-                      <th class="text-center" width="50">Opponent</th>
-                      <th class="text-center" width="50">Player 1</th>
-                      <th class="text-center" width="60">Player 2</th>
-                      <th class="text-center" width="50">Result</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-center">Round Here</td>
-                      <td class="text-center">Current Status</td>
-                      <td class="text-center">Opponent Name</td>
-                      <td class="text-center">Player 1 Moves Here</td>
-                      <td class="text-center">Player 2 Moves Here</td>
-                      <td class="text-center">Match Result Here</td>
-                    </tr>
-                    
-                  </tbody>
-                </table>
-              </div>
-            </dd>
-            <dd class="accordion-navigation">
-              <a href="#panel3" class="text-center">Match 3</a>
-              <div id="panel3" class="content">
-                <a href="#" class="button expand">Your Move</a>
-                <a href="#" class="button expand">Quit Match</a>
-                <table>
-                  <thead>
-                    <tr>
-                      <th class="text-center" width="20">Round</th>
-                      <th class="text-center" width="30">Status</th>
-                      <th class="text-center" width="50">Opponent</th>
-                      <th class="text-center" width="50">Player 1</th>
-                      <th class="text-center" width="60">Player 2</th>
-                      <th class="text-center" width="50">Result</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-center">Round Here</td>
-                      <td class="text-center">Current Status</td>
-                      <td class="text-center">Opponent Name</td>
-                      <td class="text-center">Player 1 Moves Here</td>
-                      <td class="text-center">Player 2 Moves Here</td>
-                      <td class="text-center">Match Result Here</td>
-                    </tr>
-                    
-                  </tbody>
-                </table>
-              </div>
-            </dd>
-          </dl>
         </div>
         <form action = "/control_panel" method = "post">
           <input type="submit" class="button expand" name="create-match" value="Create Match"/>
