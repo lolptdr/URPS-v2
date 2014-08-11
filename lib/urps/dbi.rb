@@ -176,13 +176,14 @@ module Arena
     			:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
     	end
 
-    	result3 = result2.each_index do |x|
+    	result2.each_index do |x|
 	    	if result2[x][:round] == nil
 	    		result2[x][:round] = 1
 	    		@db.exec(%q[
 						UPDATE matches SET round = 1 WHERE id = $1;
 			    	], [result2[x][:id]])
 	    	else
+	    		result2[x][:round] = result2[x][:round].to_i
 	    		result2[x][:round] += 1
 	    		@db.exec(%q[
 						UPDATE matches SET round = $1 WHERE id = $2;
@@ -202,7 +203,7 @@ module Arena
 					UPDATE matches SET status = $1 WHERE id = $2;
 	    		], [result2[x][:status], result2[x][:id]])
 	    end
-
+	    result2
     end
 
 		def get_match_by_user_id(user_id)

@@ -93,14 +93,10 @@ end
 
 get '/arena/:match_id/:id' do
   # match = Arena.dbi.update_match_for_player2(@current_user.user_id, params["id"])
-  @match = Arena.dbi.update_match_for_player2(params["match_id"], params["id"])
-  # Need method function to check status of the game. Do this by looking
-  # at the database for a particular matchID.
-  # If P1 value is null and P2 value is null, then it is the "Start of the Game. Waiting for P1".
-  # If P2 is null but P1 is not null, then it is "P2's turn"
-  # If P1 and P2 are not null, then output the game result. (ex: P1 wins...rock  over scissor) 
-  # Output results to view
-  erb :arena, layout: false
+  matchx = Arena.dbi.update_match_for_player2(params["match_id"], params["id"])
+  player1_arena = Arena.dbi.get_username_by_id(matchx[0][:player1])
+  player2_arena = Arena.dbi.get_username_by_id(matchx[0][:player2])
+  erb :arena, layout: false, locals: {match: matchx}
 end
 
 post '/arena/:match_id/:id' do
@@ -108,11 +104,10 @@ post '/arena/:match_id/:id' do
   @persisted_round = Arena.dbi.persist_round(@get_match)
 
   @round = Arena.dbi.update_round_by_move(params["move"], @get_match)
-  @match = Arena.dbi.update_match_for_player2(@round[0][:id], @round[0][:player1])
+  matchy = Arena.dbi.update_match_for_player2(@round[0][:id], @round[0][:player1])
 
   @all_matches_of_current_user = Arena.dbi.get_match_by_user_id(@current_user.user_id)
-binding.pry
-  redirect to '/arena/:match_id/:id'
+  redirect to '/arena/:match_id/:id', locals: {match: matchy}
 end
 
 

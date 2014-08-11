@@ -84,37 +84,9 @@
       <div class="large-7 columns small-top-mar">
         <div class="panel">
           <h3 class="text-center">Active Matches</h3>
-         <% @all_matches_of_current_user.each_with_index do |row, index| %>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th class="text-center" width="20">Round</th>
-                          <th class="text-center" width="30">Status</th>
-                          <th class="text-center" width="50">Opponent</th>
-                          <th class="text-center" width="50">Player 1</th>
-                          <th class="text-center" width="60">Player 2</th>
-                          <th class="text-center" width="50">Result</th>
-                        </tr>
-                      </thead>
+         
 <!-- insert persister_round-stuff -->
-             <tbody>
-                <tr>
-                  <td class="text-center"><%= row[index][:round] %></td>
-                  <td class="text-center"><%= row[index][:status] %></td>
-                  <% if @current_user.user_id != row[index][:player1] %>
-                    <td class="text-center"><%= row[index][:player2] %></td>
-                  <% else %>
-                    <td class="text-center"><%= row[index][:player1] %>
-                  <% end %>
-                <% end %>
-                <% @persisted_round.each do |round| %>
-                  <td class="text-center"><%= round[:player1move] %></td>
-                  <td class="text-center"><%= round[:player2move] %></td>
-                  <td class="text-center"><%= round[:result] %></td>
-                <% end %>
-                </tr>
-              </tbody>
-            </table>
+
           </div>
         <form action = "/control_panel" method = "post">
           <input type="submit" class="button expand" name="create-match" value="Create Match"/>
