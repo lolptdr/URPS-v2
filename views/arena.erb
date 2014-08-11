@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foundation</title>
-    <link rel="stylesheet" href="/Users/jting/code/mks/backend/URPS/public/stylesheets/app.css" />
-    <script src="bower_components/modernizr/modernizr.js"></script>
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+    <script src="/bower_components/modernizr/modernizr.js"></script>
   </head>
   <body>
     <!-- <div class="row"> -->
       <div class="large-12 columns">
         <div id="logo-group" class="large-3 columns left">
-          <a href="/control_panel"><img src="images/URPS.png" alt="URPS Logo" width="100"></a>
+          <a href="/control_panel"><img src="/images/URPS.png" alt="URPS Logo" width="100"></a>
           <h6>Let's Get It On!</h6>
         </div>
       </div>
@@ -24,10 +24,12 @@
             <li><a href="/control_panel" class="tiny button">Quit Match</a></li>
           </ul>
           <div class="panel">
-            <form action="/arena/:match_id/:id">
-              <a href="#" class="button expand red-button">Rock</a>
-              <a href="#" class="button expand red-button">Paper</a>
-              <a href="#" class="button expand red-button">Scissors</a>
+            <form action= <%= '/arena/'+ @match[0][:id] + '/' + @match[0][:player1] %> method='post'>
+
+              <input type="submit" class="button expand red-button" name="move" value="rock">
+              <input type="submit" class="button expand red-button" name="move" value="paper">
+              <input type="submit" class="button expand red-button" name="move" value="scissors">
+              
             </form>
           </div>
           <h3 class="text-center">Active Matches</h3>
@@ -42,7 +44,7 @@
             </h1>
             <h1 class="text-center">Match ID</h1>
             <div>
-              <img src="../images/octagon.png" alt="">
+              <img src="/images/octagon.png" alt="">
             </div>
             <h1 class="text-center">Round #</h1>
           </div>
@@ -62,8 +64,8 @@
         </div>
       </div>
       
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/foundation/js/foundation.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/foundation/js/foundation.min.js"></script>
+    <script src="/js/app.js"></script>
   </body>
 </html>
