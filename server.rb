@@ -76,6 +76,7 @@ get '/control_panel' do
   @check_host = @match_host.map { |x| [x[:id], x[:player1]] }
   # x[0] = match_id, x[1] = username, x[2] = user_id
   @check_host.map! { |x| [x[0], Arena.dbi.get_username_by_id(x[1]), x[1]] }
+  @all_matches_of_current_user = Arena.dbi.get_match_by_user_id(@current_user.user_id)
 
   erb :control_panel
 end
@@ -104,14 +105,13 @@ end
 
 post '/arena/:match_id/:id' do
   @get_match = Arena.dbi.get_match_by_id(params["match_id"])
-  Arena.dbi.persist_round(@get_match)
+  @persisted_round = Arena.dbi.persist_round(@get_match)
 
   @round = Arena.dbi.update_round_by_move(params["move"], @get_match)
-  @update_match = Arena.dbi.update_match_for_player2(@round[0][:id], @round[0][:player1])
+  @match = Arena.dbi.update_match_for_player2(@round[0][:id], @round[0][:player1])
 
   @all_matches_of_current_user = Arena.dbi.get_match_by_user_id(@current_user.user_id)
 binding.pry
-
   redirect to '/arena/:match_id/:id'
 end
 
