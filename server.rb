@@ -105,7 +105,10 @@ end
 post '/arena/:match_id/:id' do
   @get_match = Arena.dbi.get_match_by_id(params["match_id"])
   Arena.dbi.persist_round(@get_match)
-  @round = Arena.dbi.update_round_by_move(params["move"], @match[0][:id], @match[0][:player1], @matchp[0][:player2])
+
+  @round = Arena.dbi.update_round_by_move(params["move"], @get_match)
+
+
   @update_match = Arena.dbi.update_match_for_player2(@round[0][:id], @round[0][:player1])
 
   redirect to '/arena/:match_id/:id'

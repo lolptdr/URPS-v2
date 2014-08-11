@@ -262,7 +262,6 @@ module Arena
 				INSERT INTO rounds (match_id, status, player1, player2)
 				VALUES ($1, $2, $3, $4);
 				], [round["id"], round["status"], round["player1"], round["player2"] ])
-			binding.pry
 		end
 
 		def get_latest_round_by_match_id(match_id)
@@ -278,20 +277,39 @@ module Arena
 			end
 		end
 
-		def update_round_by_move(move, match_id, player1, player2)
+		def update_round_by_move(move, data)
+			beats = { "scissors" => "rock",
+      			    "rock" => "paper",
+          			"paper" => "scissors" }
 
-			@db.exec_params(%q[
-				UPDATE rounds SET player1move = $1 
-				])
+			check = @db.exec_params(%q[
+				SELECT * FROM rounds WHERE match_id = $1;
+				], [data["id"]])
 
-			response = @db.exec(%q[SELECT * FROM rounds WHERE id = $1],[match_id.to_i])
-		  result2 = response.map do |row|
+			# check[0] is the selection of the round
+			if check[0]["player1move"] == nil && check[0]["player2move"] == nil
+				@db.exec_params(%q[UPDATE rounds SET player1move = $1 WHERE id = $2], [move, check[0]["id"]])
+			elsif check[0]["player1move"] != nil && check[0]["player2move"] == nil
+				@db.exec_params(%q[UPDATE rounds SET player2move = $1 WHERE id = $2], [move, check[0]["id"]])
+			elsif check[0]["player1move"] != nil && check[0]["player2move"] != nil
+				if check[0]["player1move"] == beats[check[0]["player2move"]]
+					@db.exec_params(%q[UPDATE rounds SET result = $1 where id = $2], [get_username_by_id(check[0]["player1"]), check[0]["id"]])
+				elsif check[0]["player2move"] == beats[check[0]["player1move"]]
+					@db.exec_params(%q[UPDATE rounds SET result = $1 where id = $2], [get_username_by_id(check[0]["player1"]), check[0]["id"]])
+				else
+					@db.exec_params(%q[UPDATE rounds SET result = $1 where id = $2], ["tie", check[0]["id"]])
+				end
+			end
+
+			# Return round data
+			round_data = @db.exec(%q[SELECT * FROM rounds WHERE id = $1],[check[0]["id"]])
+		  response = round_data.map do |row|
 		  	{ :id => row["id"], :match_id => row["match_id"], :status => row["status"],
 					:player1 => row["player1"], :player2 => row["player2"], :player1move => row["player1move"],
 					:player2move => row["player2move"], :result => row["result"], :created_at => row["created_at"] }
 			end
 
-
+			response
 		end
 
 		def build_round(data)
