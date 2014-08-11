@@ -262,6 +262,111 @@ module Arena
 			end
 		end
 
+  #####################
+  # Methods for Stats #
+  #####################
+  def total_matches
+    total_as_p1 = @db.exec(%q[
+      SELECT * FROM matches WHERE username = $1 
+      ], [username])
+
+    total_as_p2 = @db.exec(%q[
+      SELECT * FROM matches WHERE username = $2
+      ], [username])
+
+    result = total_as_p1.count + total_as_p2.count
+  end
+
+  def match_wins
+    match_wins_as_p1 = @db.exec(%q[
+      SELECT * FROM matches WHERE player1_win_count != 0
+      ])
+
+    match_wins_as_p2 = @db.exec(%q[
+      SELECT * FROM matches WHERE player2_win_count != 0
+      ])
+
+    result = match_wins_as_p1.count + match_wins_as_p2.count
+  end
+
+  def match_losses
+    match_losses_as_p1 = @db.exec(%q[
+      SELECT * FROM matches WHERE losses = $1
+      ], [losses])
+
+    match_losses_as_p2 = @db.exec(%q[
+      SELECT * FROM matches WHERE losses = $2
+      ], [losses])
+
+    result = match_losses_as_p1.count + match_losses_as_p2.count
+  end
+
+  def round_wins
+    round_wins_as_p1 = @db.exec(%q[
+      SELECT * FROM matches WHERE wins = $1
+      ], [wins])
+
+    round_wins_as_p2 = @db.exec(%q[
+      SELECT * FROM matches WHERE wins = $2
+      ], [wins])
+
+    result = round_wins_as_p1.count + round_wins_as_p2.count
+  end
+
+  def round_losses
+    round_losses_as_p1 = @db.exec(%q[
+      SELECT * FROM matches WHERE losses = $1
+      ], [losses])
+
+    round_losses_as_p2 = @db.exec(%q[
+      SELECT * FROM matches WHERE losses = $2
+      ], [losses])
+
+    result = round_losses_as_p1.count + round_losses_as_p2.count
+  end
+
+  def round_ties
+    round_ties = @db.exec(%q[
+      SELECT * FROM matches WHERE ties = $1
+      ], [ties])
+
+  end
+
+  def favorite_move
+
+  end
+
+  def highest_winning_move
+
+  end
+
+  def lowest_winning_move
+
+  end
+
+  def rock_percent
+
+  end
+
+  def paper_percent
+
+  end
+
+  def scissors_percent
+
+  end
+
+
+
+
+
+
+
+
+
+
+
+
 		def build_round(data)
 			Arena::Round.new(data['status'], data['player1move'], data['player2move'], result)
 		end
