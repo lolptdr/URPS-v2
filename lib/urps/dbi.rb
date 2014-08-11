@@ -161,7 +161,6 @@ module Arena
         WHERE id = $5;
       ], [match['player_1_win_count'], match['round'], match['status'], match['player2_win_count'],
       		 match['id'] ])
-
     end
 
     def update_match_for_player2(match_id, player2)
@@ -206,16 +205,17 @@ module Arena
 
     end
 
-		def get_match_by_user_id(player2)
+		def get_match_by_user_id(user_id)
 			result = @db.exec(%q[
-				SELECT * FROM matches WHERE player2 = $1;
-			], [player2.to_i])
-			match_data = result.first
-			if match_data
-				build_match(match_data)
-			else
-				nil
+				SELECT * FROM matches WHERE player1 = $1 OR player2 = $1;
+			], [user_id.to_i])
+
+			match_data = result.map do |row|
+				{ :id => row["id"], :player1 => row["player1"], :player_1_win_count => row["player1_win_count"],
+				:round => row["round"], :status => row["status"], :player2 => row["player2"],
+				:player2_win_count => row["player2_win_count"], :created_at => row["created_at"] }
 			end
+
 		end
 
 		def get_match_by_id(match_id)
@@ -224,7 +224,6 @@ module Arena
 				], [match_id.to_i])
 			
 			match_data = result.first
-
 		end
 
 		def match_exists?(id)
@@ -294,8 +293,10 @@ module Arena
 			elsif check[0]["player1move"] != nil && check[0]["player2move"] != nil
 				if check[0]["player1move"] == beats[check[0]["player2move"]]
 					@db.exec_params(%q[UPDATE rounds SET result = $1 where id = $2], [get_username_by_id(check[0]["player1"]), check[0]["id"]])
+					@db.exec_params(%q[UPDATE matches SET player1_win_count += 1 where id= $1], [data["id"]])
 				elsif check[0]["player2move"] == beats[check[0]["player1move"]]
-					@db.exec_params(%q[UPDATE rounds SET result = $1 where id = $2], [get_username_by_id(check[0]["player1"]), check[0]["id"]])
+					@db.exec_params(%q[UPDATE rounds SET result = $1 where id = $2], [get_username_by_id(check[0]["player2"]), check[0]["id"]])
+					@db.exec_params(%q[UPDATE matches SET player2_win_count += 1 where id= $1], [data["id"]])
 				else
 					@db.exec_params(%q[UPDATE rounds SET result = $1 where id = $2], ["tie", check[0]["id"]])
 				end
@@ -415,7 +416,7 @@ module Arena
 
 
 
-		end
+	end
 	def self.dbi
 	  @__db_instance ||= DBI.new
 	end

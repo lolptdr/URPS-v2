@@ -24,7 +24,7 @@
             <li><a href="/control_panel" class="tiny button">Quit Match</a></li>
           </ul>
           <div class="panel">
-            <form action= <%= '/arena/'+ @match[0][:id] + '/' + @match[0][:player1] %> method='post'>
+            <form action= <%= '/arena/' + @match[0][:id] + '/' + @match[0][:player1] %> method='post'>
 
               <input type="submit" class="button expand red-button" name="move" value="rock">
               <input type="submit" class="button expand red-button" name="move" value="paper">
